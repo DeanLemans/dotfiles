@@ -1,0 +1,90 @@
+{
+  "terminal": {
+    "toolbar": {
+      "breadcrumbs": false
+    },
+    "font_size": 15.0
+  },
+  "text_rendering_mode": "platform_default",
+  "buffer_line_height": {
+    "custom": 1.2999999523162842
+  },
+  "buffer_font_weight": 500.0,
+  "disable_ai": true,
+  "agent_servers": {
+    "mistral-vibe": {
+      "type": "registry",
+    },
+  },
+  "agent": {
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "gpt-4.1",
+    },
+    "favorite_models": [],
+    "model_parameters": [],
+  },
+  "context_servers": {
+    "mcp-server-github": {
+      "enabled": true,
+      "remote": false,
+      "settings": {
+        "github_personal_access_token": "xxx",
+      },
+    },
+  },
+  "autosave": "on_window_change",
+  "audio": {
+    "experimental.rodio_audio": false,
+  },
+  "calls": {
+    "mute_on_join": true,
+  },
+  "edit_predictions": {
+    "mode": "subtle",
+  },
+  "agent_ui_font_size": 16.0,
+  "icon_theme": {
+    "mode": "dark",
+    "light": "Zed (Default)",
+    "dark": "Catppuccin Frappé",
+  },
+  "ui_font_size": 18.0,
+  "buffer_font_size": 16.0,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "Gruvbox Dark Hard",
+  },
+
+  // ────────────────────────────────────────────────
+  // Added for Deno + Fresh / Preact projects
+  // ────────────────────────────────────────────────
+  "languages": {
+    "TypeScript": {
+      "language_servers": ["deno", "!typescript-language-server", "!vtsls"],
+      "formatter": "language_server",
+    },
+    "TSX": {
+      "language_servers": ["deno", "!typescript-language-server", "!vtsls"],
+      "formatter": "language_server",
+    },
+    "JavaScript": {
+      "language_servers": ["deno", "!typescript-language-server", "!vtsls"],
+      "formatter": "language_server",
+    },
+  },
+  "lsp": {
+    "deno": {
+      "settings": {
+        "deno": {
+          "enable": true,
+          "cache": "on",
+          "lint": true,
+          "fmt": true,
+          "importMap": "deno.json",
+        },
+      },
+    },
+  },
+}
