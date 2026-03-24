@@ -1,0 +1,187 @@
+[gd_resource type="EditorSettings" format=3]
+
+[sub_resource type="InputEventKey" id="InputEventKey_bu7gm"]
+alt_pressed = true
+ctrl_pressed = true
+pressed = true
+keycode = 73
+
+[sub_resource type="Shortcut" id="Shortcut_r3xsq"]
+events = [SubResource("InputEventKey_bu7gm")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_6v0fd"]
+device = -1
+command_or_control_autoremap = true
+keycode = 79
+
+[sub_resource type="Shortcut" id="Shortcut_qwrxw"]
+events = [SubResource("InputEventKey_6v0fd")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_xb0jt"]
+device = -1
+alt_pressed = true
+keycode = 4194311
+
+[sub_resource type="Shortcut" id="Shortcut_bu7gm"]
+events = [SubResource("InputEventKey_xb0jt")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_r3xsq"]
+device = -1
+keycode = 4194325
+
+[sub_resource type="Shortcut" id="Shortcut_0mt3h"]
+events = [SubResource("InputEventKey_r3xsq")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_n8ktx"]
+device = -1
+command_or_control_autoremap = true
+keycode = 85
+
+[sub_resource type="Shortcut" id="Shortcut_wgeka"]
+events = [SubResource("InputEventKey_n8ktx")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_p1nw5"]
+device = -1
+shift_pressed = true
+ctrl_pressed = true
+keycode = 4194306
+
+[sub_resource type="Shortcut" id="Shortcut_3ocod"]
+events = [SubResource("InputEventKey_p1nw5")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_7gi0b"]
+device = -1
+ctrl_pressed = true
+keycode = 4194306
+
+[sub_resource type="Shortcut" id="Shortcut_bu010"]
+events = [SubResource("InputEventKey_7gi0b")]
+
+[resource]
+interface/editor/appearance/custom_display_scale = 1.15
+network/connection/check_for_updates = 2
+interface/editor/fonts/main_font_size = 15
+interface/editor/fonts/code_font_size = 15
+interface/accessibility/accessibility_support = 2
+interface/theme/base_color = Color(0.161, 0.161, 0.161, 1)
+interface/theme/accent_color = Color(0.337, 0.62, 1, 1)
+interface/theme/contrast = 0.3
+interface/scene_tabs/show_script_button = true
+interface/multi_window/maximize_window = true
+text_editor/theme/highlighting/symbol_color = Color(0.67, 0.79, 1, 1)
+text_editor/theme/highlighting/keyword_color = Color(1, 0.44, 0.52, 1)
+text_editor/theme/highlighting/control_flow_keyword_color = Color(1, 0.55, 0.8, 1)
+text_editor/theme/highlighting/base_type_color = Color(0.26, 1, 0.76, 1)
+text_editor/theme/highlighting/engine_type_color = Color(0.56, 1, 0.86, 1)
+text_editor/theme/highlighting/user_type_color = Color(0.78, 1, 0.93, 1)
+text_editor/theme/highlighting/comment_color = Color(1, 1, 1, 0.5)
+text_editor/theme/highlighting/doc_comment_color = Color(0.6, 0.7, 0.8, 0.8)
+text_editor/theme/highlighting/string_color = Color(1, 0.93, 0.63, 1)
+text_editor/theme/highlighting/background_color = Color(0.103039995, 0.103039995, 0.103039995, 1)
+text_editor/theme/highlighting/completion_background_color = Color(0.14651, 0.14651, 0.14651, 1)
+text_editor/theme/highlighting/completion_selected_color = Color(1, 1, 1, 0.07)
+text_editor/theme/highlighting/completion_existing_color = Color(1, 1, 1, 0.14)
+text_editor/theme/highlighting/completion_font_color = Color(1, 1, 1, 0.75)
+text_editor/theme/highlighting/text_color = Color(1, 1, 1, 0.75)
+text_editor/theme/highlighting/line_number_color = Color(1, 1, 1, 0.5)
+text_editor/theme/highlighting/safe_line_number_color = Color(1, 1.2, 1, 0.75)
+text_editor/theme/highlighting/caret_color = Color(1, 1, 1, 1)
+text_editor/theme/highlighting/selection_color = Color(0.337, 0.62, 1, 0.4)
+text_editor/theme/highlighting/brace_mismatch_color = Color(1, 0.47, 0.42, 1)
+text_editor/theme/highlighting/current_line_color = Color(1, 1, 1, 0.07)
+text_editor/theme/highlighting/line_length_guideline_color = Color(0.161, 0.161, 0.161, 1)
+text_editor/theme/highlighting/word_highlighted_color = Color(1, 1, 1, 0.07)
+text_editor/theme/highlighting/number_color = Color(0.63, 1, 0.88, 1)
+text_editor/theme/highlighting/function_color = Color(0.34, 0.7, 1, 1)
+text_editor/theme/highlighting/member_variable_color = Color(0.736, 0.88, 1, 1)
+text_editor/theme/highlighting/mark_color = Color(1, 0.47, 0.42, 0.3)
+text_editor/theme/highlighting/warning_color = Color(0.83, 0.78, 0.62, 0.15)
+text_editor/theme/highlighting/breakpoint_color = Color(1, 0.47, 0.42, 1)
+text_editor/theme/highlighting/code_folding_color = Color(1, 1, 1, 0.27)
+text_editor/theme/highlighting/search_result_color = Color(1, 1, 1, 0.07)
+text_editor/behavior/navigation/scroll_past_end_of_file = true
+text_editor/behavior/files/open_dominant_script_on_scene_change = true
+text_editor/completion/add_string_name_literals = true
+text_editor/completion/add_node_path_literals = true
+text_editor/completion/use_single_quotes = true
+editors/3d_gizmos/gizmo_settings/bone_axis_length = 0.1
+editors/animation/default_animation_step = 0.033333335
+network/connection/network_mode = 1
+network/tls/editor_tls_certificates = "/etc/ssl/certs/ca-certificates.crt"
+input/buffering/agile_event_flushing = true
+project_manager/default_renderer = "gl_compatibility"
+_export_preset_advanced_mode = false
+export/android/debug_keystore = "/home/void/.local/share/godot/keystores/debug.keystore"
+export/android/debug_keystore_pass = "android"
+export/android/java_sdk_path = ""
+export/android/android_sdk_path = "/home/void/Android/Sdk"
+export/android/scrcpy/screen_size = "1920x1080/120"
+export/macos/rcodesign = ""
+export/macos/actool = ""
+export/web/http_port = 8060
+export/web/tls_key = ""
+export/web/tls_certificate = ""
+export/windows/osslsigncode = ""
+_editor_settings_advanced_mode = false
+_project_settings_advanced_mode = false
+_export_template_download_directory = ""
+_default_feature_profile = ""
+_script_setup_templates_dictionary = {}
+_script_setup_use_script_templates = true
+_use_favorites_root_selection = false
+plugin/script_ide/outline_position_right = true
+plugin/script_ide/hide_private_members = false
+plugin/script_ide/script_list_visible = false
+plugin/script_ide/auto_navigate_in_filesystem_dock = true
+plugin/script_ide/script_tabs_visible = true
+plugin/script_ide/script_tabs_position_top = true
+plugin/script_ide/script_tabs_close_button_always = false
+plugin/script_ide/script_tabs_singleline = false
+plugin/script_ide/outline_order = PackedStringArray()
+plugin/script_ide/open_outline_popup = SubResource("Shortcut_qwrxw")
+plugin/script_ide/open_scripts_popup = SubResource("Shortcut_wgeka")
+plugin/script_ide/open_quick_search_popup = SubResource("Shortcut_0mt3h")
+plugin/script_ide/open_override_popup = SubResource("Shortcut_bu7gm")
+plugin/script_ide/tab_cycle_forward = SubResource("Shortcut_bu010")
+plugin/script_ide/tab_cycle_backward = SubResource("Shortcut_3ocod")
+plugin/script_ide/engine_callbacks = true
+plugin/script_ide/functions = true
+plugin/script_ide/signals = true
+plugin/script_ide/exported_properties = true
+plugin/script_ide/properties = true
+plugin/script_ide/classes = true
+plugin/script_ide/constants = true
+debug_draw_3d/settings/telemetry_state = 1
+plugin/fancy_folder_colors/save_location = "res://addons/fancy_folder_colors/user/fancy_folder_colors.dat"
+plugin/fancy_folder_icons/save_location = "res://addons/fancy_folder_icons/user/fancy_folder_icons.dat"
+gdquest_gdscript_formatter/format_on_save = false
+gdquest_gdscript_formatter/use_spaces = false
+gdquest_gdscript_formatter/indent_size = 4
+gdquest_gdscript_formatter/reorder_code = false
+gdquest_gdscript_formatter/safe_mode = true
+gdquest_gdscript_formatter/formatter_path = ""
+gdquest_gdscript_formatter/lint_on_save = false
+gdquest_gdscript_formatter/lint_line_length = 100
+gdquest_gdscript_formatter/lint_ignored_rules = ""
+gdquest_gdscript_formatter/shortcut = SubResource("Shortcut_r3xsq")
+_editor_log_filter_0 = true
+_editor_log_filter_2 = true
+_editor_log_filter_1 = true
+_editor_log_filter_3 = true
+_editor_log_filter_4 = true
+_editor_log_collapse = false
+Local_Assets/asset_dir = ""
+Local_Assets/File_preview_names = PackedStringArray("Preview", "Asset", "^(?i)preview.*", "^(?i)asset.*", "^(?i)content.*")
+Local_Assets/page_size = 50
+Local_Assets/use_first_image_found = false
+Local_Assets/use_folder_name = true
+Local_Assets/use_uniform_image_size = false
+Local_Assets/uniform_image_size = Vector2i(918, 515)
+importality/temporary_files_directory_path = ""
+importality/aseprite_or_libre_sprite_command = ""
+importality/aseprite_or_libre_sprite_command_arguments = PackedStringArray()
+importality/krita_command = ""
+importality/krita_command_arguments = PackedStringArray()
+importality/pencil2d_command = ""
+importality/pencil2d_command_arguments = PackedStringArray()
+importality/command_building_rules_for_custom_image_loader = PackedStringArray()
