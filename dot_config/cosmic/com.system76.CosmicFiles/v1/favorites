@@ -1,0 +1,12 @@
+[
+    Home,
+    Documents,
+    Downloads,
+    Music,
+    Pictures,
+    Videos,
+    Path("/home/void/repositories"),
+    Path("/home/void/books"),
+    Path("/home/void/Games"),
+    Path("/home/void/Applications/haveno-v1.2.3-linux-x86_64_eababd6bab44951236dc726a48e8be3a.AppImage"),
+]

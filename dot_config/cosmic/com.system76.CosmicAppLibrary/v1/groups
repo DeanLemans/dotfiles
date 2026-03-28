@@ -1,0 +1,34 @@
+[
+    (
+        name: "cosmic-office",
+        icon: "folder-symbolic",
+        filter: Categories(
+            categories: [
+                "Office",
+            ],
+            exclude: [],
+            include: [
+                "org.gnome.Totem",
+                "org.gnome.eog",
+                "simple-scan",
+                "thunderbird",
+            ],
+        ),
+    ),
+    (
+        name: "cosmic-utilities",
+        icon: "folder-symbolic",
+        filter: Categories(
+            categories: [
+                "Utility",
+            ],
+            exclude: [
+                "com.system76.CosmicEdit",
+                "com.system76.CosmicFiles",
+            ],
+            include: [
+                "nm-connection-editor",
+            ],
+        ),
+    ),
+]

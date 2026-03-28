@@ -1,0 +1,38 @@
+{
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "comma",
+    ): Disable,
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "equal",
+    ): Disable,
+    (
+        modifiers: [
+            Super,
+            Alt,
+        ],
+        key: "s",
+    ): Disable,
+    (
+        modifiers: [
+            Super,
+        ],
+    ): System(Launcher),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "minus",
+    ): Disable,
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "period",
+    ): Disable,
+}
