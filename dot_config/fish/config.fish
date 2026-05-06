@@ -73,3 +73,18 @@ zoxide init fish | source
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
+
+set -g img ~/Pictures/auto_20260209_192149.png
+set -g cache ~/.cache/wallust/kitty.conf
+set -g last ~/.cache/wallust/.last_wallust_img
+
+if test -f $img
+    if not test -f $last; or not test (cat $last) = $img
+        wallust run $img
+        echo $img > $last
+    end
+
+    if test -f $cache
+        kitty @ set-colors --all $cache ^/dev/null
+    end
+end
