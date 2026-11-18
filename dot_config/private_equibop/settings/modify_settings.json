@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+import os, sys
+
+KEY = '"userBasedCategoryList": {'
+
+def block(s):
+    i = s.find(KEY)
+    if i < 0:
+        return None
+    start = i + len(KEY) - 1
+    depth = 0
+    for j in range(start, len(s)):
+        if s[j] == '{':
+            depth += 1
+        elif s[j] == '}':
+            depth -= 1
+            if depth == 0:
+                return start, j + 1
+
+base_path = os.path.join(os.environ["CHEZMOI_SOURCE_DIR"], "dot_config/private_equibop/settings", ".settings.base.json")
+base = open(base_path).read()
+current = sys.stdin.read()
+
+b, c = block(base), block(current)
+if b and c:
+    base = base[:b[0]] + current[c[0]:c[1]] + base[b[1]:]
+sys.stdout.write(base)
