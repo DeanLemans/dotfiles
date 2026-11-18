@@ -148,6 +148,17 @@ customCommands:
             body: Delete every local branch merged into main? Unmerged ones are kept.
         command: git branch --merged main | grep -vE '^\*|^\s*(main|master)$' | xargs -r git branch -d
         output: log
+      # Needs kitty (uses `kitten icat`). Enter returns to lazygit.
+      - key: i
+        context: files
+        description: Show image before/after (HEAD vs working tree)
+        command: |
+          f={{.SelectedFile.Name | quote}}
+          if git cat-file -e HEAD:"$f" 2>/dev/null; then
+            echo "── HEAD"; git show HEAD:"$f" | kitten icat --stdin=yes
+          fi
+          if [ -f "$f" ]; then echo "── working tree"; kitten icat "$f"; fi
+        output: terminal
 
   # --- EXTRA: conventional commits. Needs nothing. -------------------------
   # <c-v> in the files panel: type, optional scope, message -> "fix(net): ..."
