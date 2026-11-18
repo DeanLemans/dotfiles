@@ -8,83 +8,59 @@ source /usr/share/cachyos-fish-config/cachyos-config.fish
 #    # smth smth
 #end
 
-# Added by Radicle.
-export PATH="$PATH:/home/void/.radicle/bin"
+set -gx PNPM_HOME $HOME/.local/share/pnpm
+set -gx BUN_INSTALL $HOME/.bun
+set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set -gx GHCUP_INSTALL_BASE_PREFIX $HOME
 
-# pnpm
-set -gx PNPM_HOME "/home/void/.local/share/pnpm"
-if not string match -q -- $PNPM_HOME $PATH
-  set -gx PATH "$PNPM_HOME" $PATH
-end
-# pnpm end
+fish_add_path -g $PNPM_HOME $BUN_INSTALL/bin $HOME/.cabal/bin $HOME/.ghcup/bin
+fish_add_path -ga $HOME/.radicle/bin
 
-# treat cd as z (zoxide the goat)
 if status is-interactive
-function cd
-    if test (count $argv) -eq 0
-        builtin cd
-    else if type -q __zoxide_z
-        __zoxide_z $argv
-    else
-        builtin cd $argv
-    end
-end
-end
-
-# treat cat as bat (superior)
-if status is-interactive
-function cat
-    if type -q bat
-        bat $argv
-    else
-        command cat $argv
-    end
-end
-end
-
-# yeah
-if status is-interactive
-function du
-    dust $argv
-end
-end
-
-# yeah
-if status is-interactive
-function ls
-    if type -q eza
-        eza $argv
-    else
-        command ls $argv
-    end
-end
-end
-
-# yeah
-if status is-interactive
-function df
-    duf $argv
-end
-end
-
-
-zoxide init fish | source
-
-# bun
-set --export BUN_INSTALL "$HOME/.bun"
-set --export PATH $BUN_INSTALL/bin $PATH
-
-set -g img ~/Pictures/auto_20260209_192149.png
-set -g cache ~/.cache/wallust/kitty.conf
-set -g last ~/.cache/wallust/.last_wallust_img
-
-if test -f $img
-    if not test -f $last; or not test (cat $last) = $img
-        wallust run $img
-        echo $img > $last
+    if type -q zoxide
+        zoxide init fish | source
     end
 
-    if test -f $cache
-        kitty @ set-colors --all $cache ^/dev/null
+    # treat cd as z (zoxide the goat)
+    function cd
+        if test (count $argv) -eq 0
+            builtin cd
+        else if type -q __zoxide_z
+            __zoxide_z $argv
+        else
+            builtin cd $argv
+        end
+    end
+
+    # treat cat as bat (superior)
+    function cat
+        if type -q bat
+            bat $argv
+        else
+            command cat $argv
+        end
+    end
+
+    function ls
+        if type -q eza
+            eza $argv
+        else
+            command ls $argv
+        end
+    end
+
+    function du
+        if type -q dust
+            dust $argv
+        else
+            command du $argv
+        end
+    end
+
+    function df
+        if type -q duf
+            duf $argv
+        else
+            command df $argv
+        end
     end
 end

@@ -1,0 +1,150 @@
+[ColorEffects:Disabled]
+ChangeSelectionColor=
+Color=56,56,56
+ColorAmount=0
+ColorEffect=0
+ContrastAmount=0.65
+ContrastEffect=1
+Enable=
+IntensityAmount=0.1
+IntensityEffect=2
+
+[ColorEffects:Inactive]
+ChangeSelectionColor=true
+Color=112,111,110
+ColorAmount=-0.9
+ColorEffect=1
+ContrastAmount=0.25
+ContrastEffect=2
+Enable=true
+IntensityAmount=0
+IntensityEffect=0
+
+[Colors:Button]
+BackgroundAlternate=59,114,127
+BackgroundNormal=50,55,55
+DecorationFocus=61,141,160
+DecorationHover=61,141,160
+ForegroundActive=61,141,160
+ForegroundInactive=129,138,140
+ForegroundLink=112,219,246
+ForegroundNegative=175,50,41
+ForegroundNeutral=164,133,56
+ForegroundNormal=245,237,233
+ForegroundPositive=0,109,56
+ForegroundVisited=92,80,150
+
+[Colors:Complementary]
+BackgroundAlternate=54,57,58
+BackgroundNormal=18,23,23
+DecorationFocus=61,141,160
+DecorationHover=61,141,160
+ForegroundActive=61,141,160
+ForegroundInactive=129,138,140
+ForegroundLink=61,141,160
+ForegroundNegative=175,50,41
+ForegroundNeutral=164,133,56
+ForegroundNormal=224,255,255
+ForegroundPositive=0,109,56
+ForegroundVisited=141,119,223
+
+[Colors:Selection]
+BackgroundAlternate=51,107,120
+BackgroundNormal=51,107,120
+DecorationFocus=61,141,160
+DecorationHover=61,141,160
+ForegroundActive=61,141,160
+ForegroundInactive=255,255,255
+ForegroundLink=45,103,117
+ForegroundNegative=142,44,37
+ForegroundNeutral=242,225,91
+ForegroundNormal=255,255,255
+ForegroundPositive=132,253,152
+ForegroundVisited=62,48,128
+
+[Colors:Tooltip]
+BackgroundAlternate=42,47,43
+BackgroundNormal=18,23,23
+DecorationFocus=61,141,160
+DecorationHover=61,141,160
+ForegroundActive=61,141,160
+ForegroundInactive=129,138,140
+ForegroundLink=61,141,160
+ForegroundNegative=175,50,41
+ForegroundNeutral=164,133,56
+ForegroundNormal=245,245,236
+ForegroundPositive=0,109,56
+ForegroundVisited=141,119,223
+
+[Colors:View]
+BackgroundAlternate=27,33,34
+BackgroundNormal=24,31,33
+DecorationFocus=61,141,160
+DecorationHover=61,141,160
+ForegroundActive=61,141,160
+ForegroundInactive=129,138,140
+ForegroundLink=112,219,246
+ForegroundNegative=175,50,41
+ForegroundNeutral=164,133,56
+ForegroundNormal=244,234,230
+ForegroundPositive=0,109,56
+ForegroundVisited=92,80,150
+
+[Colors:Window]
+BackgroundAlternate=25,33,35
+BackgroundNormal=31,38,39
+DecorationFocus=61,141,160
+DecorationHover=61,141,160
+ForegroundActive=61,141,160
+ForegroundInactive=129,138,140
+ForegroundLink=112,219,246
+ForegroundNegative=175,50,41
+ForegroundNeutral=164,133,56
+ForegroundNormal=244,235,231
+ForegroundPositive=0,109,56
+ForegroundVisited=92,80,150
+
+[General]
+AccentColor=61,141,160
+ColorSchemeHash=84c751f2f6f0a437b05326d203a6ed6acd26721f
+Name=COSMIC Dark
+TerminalApplication=kitty --start-as maximized
+TerminalService=kitty.desktop
+accentColorFromWallpaper=true
+shadeSortColumn=true
+
+[KDE]
+AnimationDurationFactor=0
+DefaultDarkLookAndFeel=org.kde.oxygen
+DefaultLightLookAndFeel=org.kde.air
+LookAndFeelPackage=org.kde.oxygen
+contrast=7
+frameContrast=0.2
+
+[KFileDialog Settings]
+Allow Expansion=false
+Automatically select filename extension=true
+Breadcrumb Navigation=false
+Decoration position=2
+Show Full Path=false
+Show Inline Previews=true
+Show Preview=false
+Show Speedbar=true
+Show hidden files=false
+Sort by=Date
+Sort directories first=true
+Sort hidden files last=false
+Sort reversed=false
+Speedbar Width=144
+View Style=DetailTree
+
+[Sounds]
+Theme=oxygen
+
+[WM]
+activeBackground=31,38,39
+activeBlend=0,0,0
+activeForeground=255,255,255
+inactiveBackground=31,38,39
+inactiveBlend=39,36,34
+inactiveForeground=165,168,168

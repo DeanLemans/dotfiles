@@ -1,0 +1,7 @@
+[AC][Display]
+DimDisplayIdleTimeoutSec=600
+
+[AC][SuspendAndShutdown]
+AutoSuspendIdleTimeoutSec=1800
+InhibitLidActionWhenExternalMonitorPresent=false
+LidAction=32

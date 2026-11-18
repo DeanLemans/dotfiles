@@ -15,7 +15,7 @@ backend = "full"
 
 # What color space to use to produce and select the most prominent colors:
 # lab - labmixed - lch - lchmixed - salience
-color_space = "salience"
+color_space = "lchmixed"
 
 # Use the most prominent colors in a way that makes sense, a scheme color palette:
 # dark - dark16 - darkcomp - darkcomp16
@@ -30,7 +30,7 @@ palette = "saliencedark"
 # Ensures a "readable contrast" (OPTIONAL, disabled by default)
 # Should only be enabled when you notice an unreadable contrast frequently happening
 # with your images. The reference color for the contrast is the background color.
-#check_contrast = true
+check_contrast = true
 
 # Color saturation, between [1% and 100%] (OPTIONAL, disabled by default)
 # usually something higher than 50 increases the saturation and below
@@ -45,8 +45,8 @@ palette = "saliencedark"
 
 [templates]
 
-kitty.template = "kitty"
-kitty.target = '~/.config/kitty/kitty.conf'
+#kitty.template = "kitty"
+#kitty.target = '~/.config/kitty/wallust.conf'
 # NOTE: prefer '' over "" for paths, avoids escaping.
 # template: A RELATIVE path that points to `~/.config/wallust/template` (depends on platform)
 # target: ABSOLUTE path in which to place a file with generated templated values.
@@ -57,5 +57,3 @@ kitty.target = '~/.config/kitty/kitty.conf'
 # Run commands when wallust is invoked. Useful to avoid scripting.
 #wallpaper = """swww img "$(find ~/Media/Pictures/Wallpapers -iregex '.*.\\(jpg\\|jpeg\\|png\\|gif\\)' -type f | shuf -n 1)" """
 
-
-check_contrast = "true"

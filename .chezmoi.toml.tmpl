@@ -1,0 +1,14 @@
+[edit]
+    command = "zeditor"
+    args = ["--wait"]
+
+[diff]
+    pager = "/usr/bin/delta"
+    exclude = ["scripts"]
+
+[merge]
+    command = "zeditor"
+    args = ["--wait", "--diff", "{{ "{{" }} .Destination {{ "}}" }}", "{{ "{{" }} .Target {{ "}}" }}"]
+
+[git]
+    autoAdd = true
