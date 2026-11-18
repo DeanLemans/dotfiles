@@ -1,0 +1,6 @@
+[Unit]
+Description=Promnesia index
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/share/pipx/venvs/promnesia/bin/promnesia index
