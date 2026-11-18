@@ -1,0 +1,196 @@
+[gd_resource type="Resource" script_class="DockableLayout" format=3]
+
+[ext_resource type="Script" path="res://addons/dockable_container/layout_panel.gd" id="1"]
+[ext_resource type="Script" path="res://addons/dockable_container/layout_split.gd" id="2"]
+[ext_resource type="Script" path="res://addons/dockable_container/layout.gd" id="3"]
+
+[sub_resource type="Resource" id="Resource_we4ee"]
+resource_name = "Tabs"
+script = ExtResource("1")
+names = PackedStringArray("Tools", "3D Object Tree")
+current_tab = 0
+
+[sub_resource type="Resource" id="Resource_ww46h"]
+resource_name = "Tabs"
+script = ExtResource("1")
+names = PackedStringArray("Tiles")
+current_tab = 0
+
+[sub_resource type="Resource" id="Resource_cin4u"]
+resource_name = "Split"
+script = ExtResource("2")
+direction = 1
+percent = 0.5
+first = SubResource("Resource_we4ee")
+second = SubResource("Resource_ww46h")
+
+[sub_resource type="Resource" id="Resource_0xxpk"]
+resource_name = "Tabs"
+script = ExtResource("1")
+names = PackedStringArray("Main Canvas")
+current_tab = 0
+
+[sub_resource type="Resource" id="Resource_cj3e3"]
+resource_name = "Tabs"
+script = ExtResource("1")
+names = PackedStringArray("Perspective Editor")
+current_tab = 0
+
+[sub_resource type="Resource" id="Resource_v7pjt"]
+resource_name = "Split"
+script = ExtResource("2")
+direction = 0
+percent = 0.5
+first = SubResource("Resource_0xxpk")
+second = SubResource("Resource_cj3e3")
+
+[sub_resource type="Resource" id="Resource_q2reh"]
+resource_name = "Tabs"
+script = ExtResource("1")
+names = PackedStringArray("Second Canvas")
+current_tab = 0
+
+[sub_resource type="Resource" id="Resource_yb1ec"]
+resource_name = "Split"
+script = ExtResource("2")
+direction = 0
+percent = 0.980952
+first = SubResource("Resource_v7pjt")
+second = SubResource("Resource_q2reh")
+
+[sub_resource type="Resource" id="Resource_ge30r"]
+resource_name = "Tabs"
+script = ExtResource("1")
+names = PackedStringArray("Animation Timeline")
+current_tab = 0
+
+[sub_resource type="Resource" id="Resource_yqwga"]
+resource_name = "Split"
+script = ExtResource("2")
+direction = 1
+percent = 0.6880552813425469
+first = SubResource("Resource_yb1ec")
+second = SubResource("Resource_ge30r")
+
+[sub_resource type="Resource" id="Resource_2y33w"]
+resource_name = "Tabs"
+script = ExtResource("1")
+names = PackedStringArray("Canvas Preview")
+current_tab = 0
+
+[sub_resource type="Resource" id="Resource_ch8fv"]
+resource_name = "Tabs"
+script = ExtResource("1")
+names = PackedStringArray("Recorder")
+current_tab = 0
+
+[sub_resource type="Resource" id="Resource_jb5db"]
+resource_name = "Split"
+script = ExtResource("2")
+direction = 1
+percent = 0.911765
+first = SubResource("Resource_2y33w")
+second = SubResource("Resource_ch8fv")
+
+[sub_resource type="Resource" id="Resource_jyual"]
+resource_name = "Tabs"
+script = ExtResource("1")
+names = PackedStringArray("Global Tool Options")
+current_tab = 0
+
+[sub_resource type="Resource" id="Resource_kiy4m"]
+resource_name = "Tabs"
+script = ExtResource("1")
+names = PackedStringArray("Color Picker", "Reference Images")
+current_tab = 0
+
+[sub_resource type="Resource" id="Resource_pqojq"]
+resource_name = "Split"
+script = ExtResource("2")
+direction = 1
+percent = 0.0
+first = SubResource("Resource_jyual")
+second = SubResource("Resource_kiy4m")
+
+[sub_resource type="Resource" id="Resource_dnsp3"]
+resource_name = "Tabs"
+script = ExtResource("1")
+names = PackedStringArray("Left Tool Options")
+current_tab = 0
+
+[sub_resource type="Resource" id="Resource_3v1ab"]
+resource_name = "Tabs"
+script = ExtResource("1")
+names = PackedStringArray("Right Tool Options")
+current_tab = 0
+
+[sub_resource type="Resource" id="Resource_0isuy"]
+resource_name = "Split"
+script = ExtResource("2")
+direction = 0
+percent = 0.4722222222222222
+first = SubResource("Resource_dnsp3")
+second = SubResource("Resource_3v1ab")
+
+[sub_resource type="Resource" id="Resource_wcgul"]
+resource_name = "Split"
+script = ExtResource("2")
+direction = 1
+percent = 0.468187274909964
+first = SubResource("Resource_pqojq")
+second = SubResource("Resource_0isuy")
+
+[sub_resource type="Resource" id="Resource_fb8a5"]
+resource_name = "Tabs"
+script = ExtResource("1")
+names = PackedStringArray("Palettes")
+current_tab = 0
+
+[sub_resource type="Resource" id="Resource_m6tlr"]
+resource_name = "Split"
+script = ExtResource("2")
+direction = 1
+percent = 0.7518172377985463
+first = SubResource("Resource_wcgul")
+second = SubResource("Resource_fb8a5")
+
+[sub_resource type="Resource" id="Resource_ekrnq"]
+resource_name = "Split"
+script = ExtResource("2")
+direction = 1
+percent = 0.0549133
+first = SubResource("Resource_jb5db")
+second = SubResource("Resource_m6tlr")
+
+[sub_resource type="Resource" id="Resource_cxfq7"]
+resource_name = "Split"
+script = ExtResource("2")
+direction = 0
+percent = 0.7720905172413793
+first = SubResource("Resource_yqwga")
+second = SubResource("Resource_ekrnq")
+
+[sub_resource type="Resource" id="Resource_kdxm3"]
+resource_name = "Split"
+script = ExtResource("2")
+direction = 0
+percent = 0.0
+first = SubResource("Resource_cin4u")
+second = SubResource("Resource_cxfq7")
+
+[resource]
+resource_name = "Default"
+script = ExtResource("3")
+root = SubResource("Resource_kdxm3")
+hidden_tabs = {
+"3D Object Tree": true,
+"Canvas Preview": true,
+"Color Picker Sliders": true,
+"Perspective Editor": true,
+"Recorder": true,
+"Second Canvas": true,
+"Tiles": true
+}
+windows = {}
+save_on_change = true
+layout_reset_path = "res://assets/layouts/Default.tres"

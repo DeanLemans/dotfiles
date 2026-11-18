@@ -1,0 +1,174 @@
+# ~/.config/lazygit/config.yml
+#
+# Lazygit, bedrock style.
+#   BASE   = on, needs nothing but git and lazygit.
+#   EXTRA  = commented out, uncomment the block to enable. The header says what it needs.
+#   Reference: https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
+#   Every key not listed here keeps its default.
+
+gui:
+  # --- BASE: information density -------------------------------------------
+  showCommandLog: true
+  commandLogSize: 8
+  commitLength:
+    show: true
+  showNumstatInFilesView: true
+  showDivergenceFromBaseBranch: arrowAndNumber
+  showBranchCommitHash: true
+  commitHashLength: 8
+  # statusPanelView: dashboard        # <-- REMOVED: let lazygit use its default
+  timeFormat: "2006-01-02"
+  shortTimeFormat: "15:04"
+
+  # --- BASE: layout --------------------------------------------------------
+  expandFocusedSidePanel: true
+  expandedSidePanelWeight: 2
+  mainPanelSplitMode: flexible
+  portraitMode: auto
+  wrapLinesInDiffView: true
+  scrollOffMargin: 3
+
+  # --- BASE: behaviour -----------------------------------------------------
+  filterMode: fuzzy
+  mouseEvents: true
+  switchToFilesAfterStashPop: true
+  switchToFilesAfterStashApply: true
+
+  # --- BASE: colours -------------------------------------------------------
+  theme:
+    activeBorderColor: [green, bold]
+    searchingActiveBorderColor: [cyan, bold]
+    inactiveViewSelectedLineBgColor: [bold]
+    branchColorPatterns:
+      "^(main|master)$": "#f7768e"
+      "^fix/": "#e0af68"
+      "^feat/": "#9ece6a"
+      "^docs/": "#7dcfff"
+
+  # --- EXTRA: icons. Needs a Nerd Font (ttf-nerd-fonts-symbols, installed). -
+  nerdFontsVersion: "3"
+  showFileIcons: true
+
+  # --- EXTRA: eye candy. Needs nothing, just noisy. ------------------------
+  commitGraphStyle: detailed
+  showRandomTip: true
+  spinner:
+    frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
+    rate: 80
+
+  # --- EXTRA: minimal mode. Needs nothing. Opposite of the above. ----------
+  # showBottomLine: false
+  # showPanelJumps: false
+  # border: single
+
+git:
+  # --- BASE ----------------------------------------------------------------
+  mainBranches: [main, master]
+  autoFetch: true
+  fetchAll: true
+  autoRefresh: true
+  autoDetectExternalChanges: true
+  autoForwardBranches: onlyMainBranches
+  autoStageResolvedConflicts: true
+  localBranchSortOrder: recency
+  commit:
+    autoWrapCommitMessage: true
+    autoWrapWidth: 72
+  log:
+    order: topo-order
+    showGraph: always
+  overrideGpg: true
+
+  # --- EXTRA: diff renderers. Needs git-delta and/or difftastic. -----------
+  # Pick one or the other by uncommenting the relevant entry. Both can be
+  # listed, but only the first matching one is used for a given diff.
+  diffRenderers:
+    - type: stdinFilter
+      command: /usr/bin/delta --paging=never
+    # - type: extDiff
+    #   command: difft --color=always
+
+  # --- EXTRA: emoji. Needs nothing. ----------------------------------------
+  # (This should really be under 'gui', not 'git', per upstream docs)
+  parseEmoji: true
+
+  # --- EXTRA: safety. Needs nothing. ---------------------------------------
+  # disableForcePushing: true
+
+  # --- EXTRA: all-branches log (optional). --------------------------------
+  # Uncomment the block below and set gui.statusPanelView to 'allBranchesLog'
+  # if you explicitly want the main panel to show a git log instead of the
+  # dashboard. Using this together with the default statusPanelView keeps the
+  # normal diff view, while the log is still available via the 'a' key in the
+  # Status panel.
+  # allBranchesLogCmds:
+  #   - git log --graph --all --color=always --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
+
+refresher:
+  refreshInterval: 5
+  fetchInterval: 60
+
+os:
+  # Replace 'editPreset: zeditor' with these custom commands
+  edit: 'zeditor -- {{filename}}'
+  editAtLine: 'zeditor -- {{filename}}:{{line}}'
+  editAtLineAndWait: 'zeditor --wait -- {{filename}}:{{line}}'
+  openDirInEditor: 'zeditor -- {{dir}}'
+  editInTerminal: false
+  # --- EXTRA: clipboard over SSH. Needs a terminal with OSC52. -------------
+  # copyToClipboardCmd: printf "\033]52;c;$(printf {{text}} | base64 -w 0)\a" > /dev/tty
+
+update:
+  method: never
+
+confirmOnQuit: true
+quitOnTopLevelReturn: false
+
+customCommands:
+  - key: "<c-x>"
+    description: Toolbox
+    commandMenu:
+      - key: s
+        context: commits, subCommits, reflogCommits
+        description: Commit stats (files and line counts)
+        command: git show --stat --format=fuller {{.SelectedCommit.Hash}}
+        output: popup
+      - key: f
+        context: global
+        description: Fetch all remotes and prune deleted branches
+        command: git fetch --all --prune
+        output: log
+        loadingText: Fetching
+      - key: b
+        context: localBranches
+        description: Delete local branches already merged into main
+        prompts:
+          - type: confirm
+            title: Delete merged branches
+            body: Delete every local branch merged into main? Unmerged ones are kept.
+        command: git branch --merged main | grep -vE '^\*|^\s*(main|master)$' | xargs -r git branch -d
+        output: log
+
+  # --- EXTRA: conventional commits. Needs nothing. -------------------------
+  # <c-v> in the files panel: type, optional scope, message -> "fix(net): ..."
+  # - key: "<c-v>"
+  #   context: files
+  #   description: Conventional commit
+  #   prompts:
+  #     - type: menu
+  #       key: Type
+  #       title: Type
+  #       options:
+  #         - { value: feat,     key: f, description: New feature }
+  #         - { value: fix,      key: x, description: Bug fix }
+  #         - { value: refactor, key: r, description: No behaviour change }
+  #         - { value: docs,     key: d, description: Documentation }
+  #         - { value: chore,    key: c, description: Tooling, cleanup }
+  #     - type: input
+  #       key: Scope
+  #       title: Scope (empty for none)
+  #     - type: input
+  #       key: Msg
+  #       title: Message
+  #   command: >-
+  #     git commit -m {{ (printf "%s%s: %s" .Form.Type (and .Form.Scope (printf "(%s)" .Form.Scope)) .Form.Msg) | quote }}

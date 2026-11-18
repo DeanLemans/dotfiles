@@ -1,0 +1,179 @@
+/* ==========================================================================
+   userChrome.css — Sidebery + Floorp default config
+   Source: https://github.com/mbnuqw/sidebery (README, "Option 2")
+   Place this file at: <profile folder>/chrome/userChrome.css
+   Requires: toolkit.legacyUserProfileCustomizations.stylesheets = true
+   Requires: sidebar.verticalTabs = false (let Sidebery own the tabs)
+   ========================================================================== */
+
+/**
+ * Hide the native sidebar panel header
+ * (relevant when sidebar.revamp: true)
+ */
+#sidebar-panel-header {
+  display: none;
+}
+
+/**
+ * Hide the older sidebar header variant
+ * (relevant when sidebar.revamp: false)
+ */
+#sidebar-header {
+  display: none !important;
+}
+
+/**
+ * Everything below only applies while Sidebery's sidebar is the
+ * active/open one — Sidebery sets titlepreface="." on #main-window
+ * automatically when it's active, so nothing else to configure here.
+ */
+#main-window[titlepreface="."] {
+
+  /* Hide the horizontal native tab strip — Sidebery replaces it */
+  #TabsToolbar > * {
+    display: none !important;
+  }
+
+  /* Remove the now-pointless border under the nav bar */
+  #nav-bar {
+    border-color: transparent !important;
+  }
+
+  /* Hide Firefox's own (new-style) sidebar UI so it doesn't double up
+     with Sidebery's */
+  #sidebar-main,
+  #sidebar-container,
+  #sidebar-launcher-splitter {
+    display: none !important;
+  }
+
+  /* Strip default padding/border/shadow so Sidebery's sidebar sits flush */
+  #sidebar-box {
+    padding: 0 !important;
+  }
+  #sidebar-box #sidebar {
+    box-shadow: none !important;
+    border: none !important;
+    outline: none !important;
+    border-radius: 0 !important;
+  }
+
+  /* Slim down the drag handle between sidebar and page content */
+  #sidebar-splitter {
+    --splitter-width: 3px !important;
+    min-width: var(--splitter-width) !important;
+    width: var(--splitter-width) !important;
+    padding: 0 !important;
+    margin: 0 calc(-1 * var(--splitter-width) + 1px) 0 0 !important;
+    border: 0 !important;
+    opacity: 0 !important;
+  }
+
+  /* ------------------------------------------------------------------
+     OPTIONAL — uncomment if wanted
+
+     Blend the #browser background (visible near the rounded corner of
+     the page) with Sidebery's accent color instead of the theme default:
+  ------------------------------------------------------------------ */
+  /*
+  #browser {
+    background-color: var(--lwt-accent-color) !important;
+    background-image: none !important;
+  }
+  */
+
+  /* ------------------------------------------------------------------
+     OPTIONAL — Linux window controls
+     If your window manager doesn't draw its own title bar and you lose
+     access to min/max/close after hiding #TabsToolbar, uncomment this
+     to bring them back into the nav bar:
+  ------------------------------------------------------------------ */
+  /*
+  #nav-bar > .titlebar-buttonbox-container,
+  #nav-bar > .titlebar-buttonbox-container > .titlebar-buttonbox {
+    display: flex !important;
+  }
+  */
+
+  /* Give the window buttons some breathing room, if enabled above: */
+  /* #nav-bar > .titlebar-spacer[type="pre-tabs"]  { display: flex !important; } */
+  /* #nav-bar > .titlebar-spacer[type="post-tabs"] { display: flex !important; } */
+}
+
+/* ==========================================================================
+   NOT userChrome.css content — do not uncomment these here, they won't work.
+
+   Sidebery's sidebar is a separate extension page, not part of browser
+   chrome, so userChrome.css can't reach classes like .NavigationBar or
+   .PinnedTabsBar. These two snippets go into Sidebery's OWN style editor
+   instead: Sidebery settings -> Styles editor. Left here commented out
+   just as a reference for what's available.
+   ========================================================================== */
+
+/*
+-- Rounded corner for vertical nav bar (paste into Sidebery Styles editor) --
+
+.Notifications + .main-box .central-box {
+  height: calc(100% - var(--general-margin));
+  margin-top: var(--general-margin);
+}
+.NavigationBar {
+  box-shadow: none;
+}
+.NavigationBar.-vert {
+  padding: var(--nav-btn-margin) 0 0
+}
+#root[data-pinned-tabs-position="left"]:not([data-nav-layout="horizontal"]) .PinnedTabsBar,
+#root[data-pinned-tabs-position="right"]:not([data-nav-layout="horizontal"]) .PinnedTabsBar {
+  padding: var(--general-margin) 0 calc(var(--tabs-margin) * 2);
+}
+#root[data-pinned-tabs-position="left"][data-nav-layout="left"][data-drag="true"] .PinnedTabsBar,
+#root[data-pinned-tabs-position="right"][data-nav-layout="right"][data-drag="true"] .PinnedTabsBar {
+  padding: var(--general-margin) 0 16px
+}
+
+.main-box {
+  --rounding: calc(var(--general-border-radius) + var(--general-margin));
+}
+#root[data-nav-layout="left"] .main-box:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--nav-btn-width);
+  width: var(--rounding);
+  height: var(--rounding);
+  z-index: 1000;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle at 100% 100%,
+    #00000000,
+    #00000000 var(--rounding),
+    var(--toolbar-bg) calc(var(--rounding) + 0.5px),
+    var(--toolbar-bg)
+  );
+}
+*/
+
+/*
+-- Full width pinned tabs (paste into Sidebery Styles editor) --
+
+#root.root {--tabs-pinned-height: 32px;}
+#root.root {--tabs-pinned-width: 36px;}
+
+#root.root .PinnedTabsBar .tab-wrapper {
+  width: auto;
+  flex-grow: 1;
+}
+#root.root .PinnedTabsBar .tab-wrapper .Tab {
+  --tabs-activated-shadow: inset 0 0 0 1px #fff2;
+  --tabs-activated-bg: #fff2;
+  width: 100%;
+  min-width: var(--tabs-pinned-width);
+}
+#root.root .PinnedTabsBar .tab-wrapper .Tab .body {
+  --tabs-normal-bg: #ffffff0f;
+}
+#root.root .PinnedTabsBar .tab-wrapper .Tab[data-discarded="true"] .body {
+  --tabs-normal-bg: #ffffff06;
+}
+*/

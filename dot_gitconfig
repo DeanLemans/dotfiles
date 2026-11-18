@@ -1,0 +1,13 @@
+[user]
+	name = Dean Henny Anton Lemans Haar
+	email = deanlemans@mailbox.org
+	signingKey = 59C640C7FF5690CBA59957F74C7BD32EA0C2C15F
+[gui]
+	editor = zed
+[global]
+[init]
+	defaultBranch = master
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+[commit]
+	gpgsign = true
