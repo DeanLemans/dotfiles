@@ -1,4 +1,4 @@
-# dotfiles
+# the deansest dean / th3seekers dotfiles
 
 My stack is cachyos + kde plasma, fish, kitty, zed as main editor.
 
