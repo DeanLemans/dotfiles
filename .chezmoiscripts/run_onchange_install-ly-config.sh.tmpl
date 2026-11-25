@@ -1,0 +1,4 @@
+#!/bin/sh
+# ly config hash: {{ include "etc/ly/config.ini" | sha256sum }}
+set -e
+sudo install -Dm644 "{{ .chezmoi.sourceDir }}/etc/ly/config.ini" /etc/ly/config.ini
