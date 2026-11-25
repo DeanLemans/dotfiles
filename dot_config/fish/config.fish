@@ -63,4 +63,13 @@ if status is-interactive
             command df $argv
         end
     end
+
+    # treat yay as paru (only one aur helper needed)
+    function yay --wraps paru
+        if type -q paru
+            paru $argv
+        else
+            command yay $argv
+        end
+    end
 end
