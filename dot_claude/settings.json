@@ -3,7 +3,7 @@
     "SessionStart": [
       {
         "hooks": [
-          { "type": "command", "command": "\"$HOME/.local/bin/link-agents\" >/dev/null 2>&1; \"$HOME/.local/bin/start-user-daemons\" >/dev/null 2>&1; exit 0" }
+          { "type": "command", "command": "\"$HOME/.local/bin/link-agents\" 2>&1; \"$HOME/.local/bin/start-user-daemons\" >/dev/null 2>&1; exit 0" }
         ]
       }
     ]

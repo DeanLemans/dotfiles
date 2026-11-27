@@ -11,7 +11,7 @@ link=$HOME/.local/bin/link-agents
 
 child=
 # wait (not a foreground child) ∴ signals stop us right away, take the child along
-trap '[ -n "$child" ] && kill "$child" 2>/dev/null; exit 0' HUP INT TERM
+trap 'kill $child 2>/dev/null; exit 0' HUP INT TERM
 
 nl='
 '
@@ -30,7 +30,7 @@ watched() {
 	done
 }
 
-"$link" >/dev/null 2>&1
+# watch first, link after ∴ nothing made while link-agents runs gets missed
 while :; do
 	dirs=$(watched)
 	set -f; old=$IFS; IFS=$nl
@@ -46,7 +46,7 @@ while :; do
 		sleep 5 &
 	fi
 	child=$!
+	"$link" >/dev/null 2>&1
 	wait "$child"
 	child=
-	"$link" >/dev/null 2>&1
 done

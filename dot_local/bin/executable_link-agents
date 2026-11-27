@@ -9,9 +9,16 @@
 #     (generated copy of the globals + where the project memories are, no imports)
 set -u
 a=$HOME/.agents mem=$HOME/.agents/memories proj=$HOME/.claude/projects
+log=${XDG_STATE_HOME:-$HOME/.local/state}/link-agents.log
 
 # claude code names a project dir after its path, every non-alphanumeric as -
-slug() { printf '%s' "$1" | sed 's/[^A-Za-z0-9]/-/g'; }
+slug() { printf '%s' "$1" | LC_ALL=C sed 's/[^A-Za-z0-9]/-/g'; }
+
+# warn <msg>: stderr + log ∵ the watcher + hook run w/o a terminal
+warn() {
+	printf '%s\n' "$1" >&2
+	mkdir -p "${log%/*}" && printf '%s %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$1" >>"$log"
+}
 
 # link <src> <target>: make target a symlink to src, keep what was there as .bak
 link() {
@@ -23,7 +30,7 @@ link() {
 		rmdir "$2"
 	elif [ -e "$2" ]; then
 		mv "$2" "$2.bak-$(date +%Y%m%d%H%M%S)"
-		printf 'kept old %s as .bak, merge by hand\n' "$2" >&2
+		warn "kept old $2 as .bak, merge by hand"
 	fi
 	ln -s "$1" "$2"
 }
