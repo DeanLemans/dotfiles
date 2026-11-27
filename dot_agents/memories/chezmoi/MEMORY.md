@@ -1,1 +1,2 @@
 - [dotfiles-repo](dotfiles-repo.md): chezmoi dotfiles facts: public repo, per-machine data, sudo install scripts (never apply unasked), commit only when asked
+- [link-agents](link-agents.md): how ~/.agents gets hooked into claude, codex, opencode, gemini: link-agents, the watcher, the hook, start-user-daemons

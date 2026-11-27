@@ -5,7 +5,7 @@ metadata:
   type: feedback
 ---
 
-- Less code is a feature. Write the minimum. Is this abstraction earning its keep? Consider deleting or merging before adding, and propose it during reviews (only do it when asked, [[only-change-what-was-asked]]).
+- Less code is a feature. Write the minimum. Is this abstraction earning its keep? Consider deleting or merging before adding, and propose it during reviews (only do it when asked, [[only-do-what-was-asked]]).
 - Like netbsd (easy to inspect, modify, extend), openbsd (simple, clear, consistent), suckless (small enough for one person to read + rewrite).
 - **Fail loudly where a mistake is likely** (bad ids, missing wiring, broken save data, wrong config): report it, never continue silently. This is not a reason to wrap every engine call in checks, that is clutter.
 - Use the built-ins of the engine/language/addons before writing your own.

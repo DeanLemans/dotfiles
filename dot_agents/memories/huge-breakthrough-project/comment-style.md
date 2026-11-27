@@ -11,4 +11,4 @@ metadata:
 - Doc comments still document the contract ([[code-rules]]), just tersely.
 
 **Why:** Dean asked for these 2026-11-20 + 2026-11-25 across the whole scripts folder.
-**How to apply:** match it in every comment I write. Deleting or rewriting existing comments only in a comment pass Dean asked for ([[only-change-what-was-asked]]). Dont write this rule into the TDD unless asked ([[design-doc-rules]]).
+**How to apply:** match it in every comment I write. Deleting or rewriting existing comments only in a comment pass Dean asked for ([[only-do-what-was-asked]]). Dont write this rule into the TDD unless asked ([[design-doc-rules]]).
