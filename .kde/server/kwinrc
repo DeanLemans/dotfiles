@@ -1,0 +1,16 @@
+[Desktops]
+Id_1=715f2da6-8766-44fa-8217-f04af51b8a57
+Number=1
+Rows=1
+
+[NightColor]
+Active=true
+DayTemperature=6300
+NightTemperature=6000
+
+[Tiling][715f2da6-8766-44fa-8217-f04af51b8a57][b8e3c7af-2b32-44d2-8638-84bc7f468628]
+padding=4
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+[Xwayland]
+Scale=1.5

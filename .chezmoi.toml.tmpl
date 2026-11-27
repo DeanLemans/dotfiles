@@ -12,3 +12,16 @@
 
 [git]
     autoAdd = true
+
+# machine = which .kde/<machine>/ folder to use. server skips floorp and gets the minecraft server.
+# minecraft server (velocity + purpur). secrets live only in the generated
+# ~/.config/chezmoi/chezmoi.toml on that machine, never in git.
+{{- $machine := promptChoiceOnce . "machine" "Which machine is this" (list "main" "server") }}
+{{- $mc := eq $machine "server" }}
+[data]
+    machine = {{ $machine | quote }}
+    mcServer = {{ $mc }}
+{{- if $mc }}
+    mcForwardingSecret = {{ promptStringOnce . "mcForwardingSecret" "Velocity forwarding secret" | quote }}
+    mcManagementSecret = {{ promptStringOnce . "mcManagementSecret" "Purpur management-server-secret" | quote }}
+{{- end }}

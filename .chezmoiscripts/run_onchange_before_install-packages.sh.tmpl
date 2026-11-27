@@ -1,0 +1,32 @@
+#!/bin/sh
+# installs the apps these dotfiles are for. reruns whenever this file changes.
+# already installed stuff is skipped (--needed).
+set -e
+
+# repo packages (arch/cachyos)
+sudo pacman -S --needed \
+    fish kitty zed emacs lazygit \
+    zoxide bat eza dust duf \
+    nemo ly godot equibop betterbird-bin \
+    flatpak python-pipx \
+{{- if eq (get . "machine" | default "main") "main" }}
+    floorp-bin \
+{{- else }}
+    jre25-openjdk \
+{{- end }}
+    ;
+
+# aur packages, paru lets you look at the PKGBUILD first
+paru -S --needed wallust albert
+
+# flatpaks (configs live in ~/.var/app)
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak install -y --noninteractive flathub \
+    com.obsproject.Studio \
+    com.orama_interactive.Pixelorama
+
+# promnesia (browser history thing, see readme)
+if ! command -v promnesia >/dev/null; then
+    pipx install promnesia
+    pipx inject promnesia browserexport sqlite_backup
+fi

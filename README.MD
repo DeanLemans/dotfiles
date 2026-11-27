@@ -56,11 +56,11 @@ firefox based browsers have more custimizability, thats mostly what it , but oth
 ## New machine (tbh i havnt tested in on a brand new machine, cant be bothered)
 
 - [ ] install chezmoi
-- [ ] `chezmoi init --apply deanlemans/dotfiles`
-- [ ] type sudo pw when it asks (floorp addon policy)
-- [ ] restart floorp, check `about:policies` to see if addons are there
+- [ ] `chezmoi init deanlemans/dotfiles`, it asks `main` or `server` (server = minecraft box, asks for the 2 mc secrets)
+- [ ] `chezmoi diff` then `chezmoi apply`
+- [ ] type sudo pw when it asks, apps get installed by `.chezmoiscripts/run_onchange_before_install-packages.sh.tmpl` (pacman + paru + flatpak + pipx)
+- [ ] main only: restart floorp, check `about:policies` to see if addons are there
 - [ ] sign into mailbox.org in betterbird
-- [ ] `pipx install promnesia` then `pipx inject promnesia browserexport sqlite_backup`
 - [ ] redownload pixelorama extensions (discordrpc, timetracking), (theyre binaries)
 
 ---
@@ -76,6 +76,8 @@ firefox based browsers have more custimizability, thats mostly what it , but oth
 printf %s (jq --indent 4 '.plugins.PinDMs.userBasedCategoryList = {}' ~/.config/equibop/settings/settings.json | string collect) > (chezmoi source-path)/dot_config/private_equibop/settings/.settings.base.json
 ```
 
+- kde is per machine now: `.kde/main/` and `.kde/server/`, picked by `machine` in chezmoi config (asked on `chezmoi init`). templates so re-add skips them, save with `sh (chezmoi source-path)/.kde/save.sh`
+- server machine also skips floorp
 - kde/godot/pixelorama/betterbird/floorp bookmarks all rewrite own files whenever, `chezmoi status` is never empty. idk + idc its fine, just re-add when i want it saved
 - `chezmoi apply` always asks before rewriting local stuff
 
@@ -99,6 +101,7 @@ printf %s (jq --indent 4 '.plugins.PinDMs.userBasedCategoryList = {}' ~/.config/
 - [x] set up chezmoi propperly + sync everything with whats actually on pc
 - [x] swap cosmic config for kde
 - [x] get rid of the dolphin file picker
+- [x] per machine kde + minecraft server box
 - [x] promnesia browser history + hourly index
 - [x] get discord ids out of the repo history
 

@@ -1,2 +1,24 @@
 README
 etc
+{{ if not (get . "mcServer") }}
+velocity
+velocity/**
+purpur-server
+purpur-server/**
+{{ end }}
+
+{{- $machine := get . "machine" | default "main" }}
+{{ if ne $machine "main" }}
+# floorp only on main
+.floorp
+.floorp/**
+.chezmoiscripts/install-floorp-policies.sh
+{{ end }}
+# kde files this machine has no .kde/<machine>/ copy of
+{{ range list "kdeglobals" "kcminputrc" "kglobalshortcutsrc" "krunnerrc" "kscreenlockerrc" "kwinrc" "plasma-org.kde.plasma.desktop-appletsrc" "plasmashellrc" "powerdevilrc" -}}
+{{ if not (stat (joinPath $.chezmoi.sourceDir ".kde" $machine .)) }}.config/{{ . }}
+{{ end }}
+{{- end }}
+{{- if not (stat (joinPath .chezmoi.sourceDir ".kde" $machine "kde-portals.conf")) }}
+.config/xdg-desktop-portal/kde-portals.conf
+{{ end }}
