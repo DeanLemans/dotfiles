@@ -1,6 +1,0 @@
-[Unit]
-Description=Link Claude Code memory into Delta worktrees
-
-[Service]
-Type=oneshot
-ExecStart=%h/.local/bin/link-delta-memory

@@ -19,6 +19,7 @@ as_root pacman -S --needed \
     zoxide bat eza dust duf \
     nemo ly godot equibop betterbird-bin \
     flatpak python-pipx \
+    inotify-tools \
     "$extra"
 
 # aur packages, paru lets you look at the PKGBUILD first

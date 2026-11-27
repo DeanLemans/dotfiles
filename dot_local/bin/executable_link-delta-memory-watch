@@ -1,0 +1,49 @@
+#!/bin/sh
+# runs link-delta-memory whenever delta creates a worktree.
+# init system agnostic: start it from xdg autostart (done in dotfiles), a login
+# shell, an openrc/runit/s6/dinit user service, cron @reboot, etc.
+# one instance per user (mkdir lock). uses inotifywait (inotify-tools) when
+# installed ∴ instant, else polls every 5s.
+set -u
+link=$HOME/.local/bin/link-delta-memory
+lock=${XDG_RUNTIME_DIR:-${TMPDIR:-/tmp}}/link-delta-memory-$(id -u).lock
+
+if ! mkdir "$lock" 2>/dev/null; then
+	pid=$(cat "$lock/pid" 2>/dev/null) || pid=
+	if [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null; then exit 0; fi
+	rm -rf "$lock"
+	mkdir "$lock" || exit 1
+fi
+printf '%s\n' "$$" > "$lock/pid"
+child=
+trap 'rm -rf "$lock"' EXIT
+# wait (not a foreground child) ∴ signals stop us right away, take inotifywait along
+trap '[ -n "$child" ] && kill "$child" 2>/dev/null; exit 0' HUP INT TERM
+
+nl='
+'
+watched() { # worktree dirs of all known projects, one per line
+	for p in "$HOME"/.agents/memories/*/.path; do
+		[ -f "$p" ] || continue
+		d=$HOME/$(cat "$p")/.delta/worktrees
+		[ -d "$d" ] && printf '%s\n' "$d"
+	done
+}
+
+"$link" >/dev/null 2>&1
+while :; do
+	dirs=$(watched)
+	set -f; old=$IFS; IFS=$nl
+	set -- $dirs
+	IFS=$old; set +f
+	if [ "$#" -gt 0 ] && command -v inotifywait >/dev/null 2>&1; then
+		# timeout ∴ projects that get a .delta dir later are picked up too
+		inotifywait -qq -t 300 -e create -e moved_to "$@" >/dev/null 2>&1 &
+	else
+		sleep 5 &
+	fi
+	child=$!
+	wait "$child"
+	child=
+	"$link" >/dev/null 2>&1
+done

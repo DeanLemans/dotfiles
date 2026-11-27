@@ -5,7 +5,7 @@ metadata:
   type: feedback
 ---
 
-Design docs live in `/home/void/repositories/nexus/content/long term celcit pixie horror game/` (GDD.md, FDD.md, TDD.md). The TDD doc/comment rules apply to all three. Its a different repo (nexus, branch v5): dont commit there unless asked.
+Design docs live in `~/repositories/nexus/content/long term celcit pixie horror game/` (GDD.md, FDD.md, TDD.md). The TDD doc/comment rules apply to all three. Its a different repo (nexus, branch v5): dont commit there unless asked.
 
 - one fact, one place: GDD = why/feel, FDD = rules + numbers, TDD = code; others link, dont copy
 - prose = decided only; every [ ] goes in the docs Open Questions section

@@ -1,0 +1,11 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          { "type": "command", "command": "\"$HOME/.local/bin/link-delta-memory\" >/dev/null 2>&1; nohup \"$HOME/.local/bin/link-delta-memory-watch\" >/dev/null 2>&1 & exit 0" }
+        ]
+      }
+    ]
+  }
+}

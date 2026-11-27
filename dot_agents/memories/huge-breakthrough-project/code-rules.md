@@ -5,7 +5,7 @@ metadata:
   type: project
 ---
 
-The real TDD is `/home/void/repositories/nexus/content/long term celcit pixie horror game/TDD.md` (synced into the game repo root by CI, dont edit that copy). Read its coding rules, documentation + comment rules and function naming guide before any code task or review; if it disagrees with this memory, the TDD wins. Dean says those rules apply more generally too (also to GDD/FDD).
+The real TDD is `~/repositories/nexus/content/long term celcit pixie horror game/TDD.md` (synced into the game repo root by CI, dont edit that copy). Read its coding rules, documentation + comment rules and function naming guide before any code task or review; if it disagrees with this memory, the TDD wins. Dean says those rules apply more generally too (also to GDD/FDD).
 
 Key points:
 - godot flavored component-based architecture, but not everything a component; small composable scenes, not a framework on top. Merging components is fine when it removes code.

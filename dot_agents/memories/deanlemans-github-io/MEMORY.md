@@ -1,4 +1,4 @@
-- [main-checkout-v5](main-checkout-v5.md): never touch the Delta worktree (not even reads); all work + commits in /home/void/repositories/deanlemans.github.io on v5, no side branch
+- [main-checkout-v5](main-checkout-v5.md): never touch the Delta worktree (not even reads); all work + commits in ~/repositories/deanlemans.github.io on v5, no side branch
 - [hands-off-folders](hands-off-folders.md): never touch or even search content/.trash; exclude content/Plugin data from every script; Obsidian is open during edits
 - [vault-edits-no-own-writing](vault-edits-no-own-writing.md): in Deans vault never write own prose; only move, merge, dedupe and link existing text; the few allowed exceptions are listed
 - [vault-scope](vault-scope.md): vault work = content/ only; ignore .obsidian + quartz/publish when reviewing notes; read vault rules/colophon/lifecycle first
