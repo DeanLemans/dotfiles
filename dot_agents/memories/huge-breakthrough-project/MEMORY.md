@@ -1,0 +1,10 @@
+- [no-running-godot](no-running-godot.md): never run the godot binary (headless, editor, --check-only, scripts) in this project, not even GUT tests
+- [git-in-this-repo](git-in-this-repo.md): here commits are OK without asking (small, single-purpose); message style w/ ∴ why-line like e5a814f; GPG signed
+- [code-rules](code-rules.md): the TDD in nexus is the source of truth for coding/doc/naming rules; key points + how they fit together
+- [comment-style](comment-style.md): gdscript comments: lowercase, no trailing dot, compact, symbols instead of words, `not` instead of `!`
+- [hands-off-folders](hands-off-folders.md): dont edit addons/; dont clean up template code, demo levels, ARCHIVE SCRIPTS or state chart examples
+- [dialogue-style](dialogue-style.md): rules for .dialogue files (Dialogue Manager 4.2): own tone per entity, psychological horror, dialogue-specific AI tells
+- [showcase-scene](showcase-scene.md): showcase.tscn demos every functionality; placeholder.tscn is the extra test scene; say when a new feature isnt showcased
+- [design-doc-rules](design-doc-rules.md): rules for GDD/FDD/TDD in nexus: one fact one place, stages vs zones, open questions, FDD for non-programmers, 2D is prototype
+- [project-facts](project-facts.md): misc facts: tests in scripts/test (GUT, Dean runs them), mermaid links point to github, sintutiers org
+- [ci-godot-version-mismatch](ci-godot-version-mismatch.md): editor is Godot 4.8 beta but CI exports with 4.7.2 on purpose; 4.8 inlines PackedScene refs as sub_resources that 4.7 cant parse

@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# Share Claude Code memory between a repo and its Delta worktrees.
+# Delta runs sessions from <repo>/.delta/worktrees/<id>/<name>, which Claude Code
+# treats as a separate project with its own (empty) memory dir. This points each
+# such dir's memory/ at the main repo's memory/ via a symlink.
+#
+# Two passes:
+#   1. Worktrees on disk: create the Claude project dir and the link up front,
+#      so the very first session in a new worktree already loads the memories.
+#      (link-delta-memory.path runs this the moment Delta creates a worktree.)
+#   2. Existing Claude project dirs: fix up any that pass 1 could not see.
+set -u
+root="$HOME/.claude/projects"
+repos="${DELTA_REPO_ROOT:-$HOME/repositories}"
+
+# Claude Code names a project dir after its path, every non-alphanumeric as '-'.
+slug() { printf '%s' "$1" | sed 's/[^A-Za-z0-9]/-/g'; }
+
+link() { # link <project dir> <main memory dir>
+  local d=$1 main=$2 link="$1/memory" base
+  base=$(basename -- "$d")
+  [ -d "$main" ] || { echo "skip $base: no main memory dir"; return; }
+  if [ -L "$link" ]; then
+    [ "$(readlink -- "$link")" = "$main" ] && return
+    echo "skip $base: memory is a symlink to somewhere else"; return
+  fi
+  if [ -e "$link" ]; then
+    if [ -d "$link" ] && [ -z "$(ls -A -- "$link")" ]; then rmdir -- "$link"
+    else echo "skip $base: memory dir has files, merge by hand"; return; fi
+  fi
+  mkdir -p -- "$d" && ln -s -- "$main" "$link" && echo "linked $base"
+}
+
+for repo in "$repos"/*/; do
+  repo=${repo%/}
+  main="$root/$(slug "$repo")/memory"
+  [ -d "$main" ] || continue
+  for id in "$repo"/.delta/worktrees/*/; do
+    [ -d "$id" ] || continue
+    id=${id%/}
+    # Delta checks the repo out as <id>/<repo name>; that dir may not exist yet.
+    link "$root/$(slug "$id/$(basename -- "$repo")")" "$main"
+    for wt in "$id"/*/; do
+      [ -d "$wt" ] && link "$root/$(slug "${wt%/}")" "$main"
+    done
+  done
+done
+
+for d in "$root"/*--delta-worktrees-*; do
+  [ -d "$d" ] || continue
+  base=$(basename -- "$d")
+  link "$d" "$root/${base%%--delta-worktrees-*}/memory"
+done

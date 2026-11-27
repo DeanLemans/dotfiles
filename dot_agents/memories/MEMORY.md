@@ -1,0 +1,14 @@
+- [user-setup](user-setup.md): Deans machines + tools: CachyOS/KDE, fish, paru, nemo, zed, lazygit, public chezmoi dotfiles, Delta
+- [ask-before-acting](ask-before-acting.md): questions get answers not actions; builds/installs need an explicit yes; 'check, dont change' = diagnose + give commands
+- [read-the-docs](read-the-docs.md): read official docs for the version in use + double check commands; dont trust own knowledge
+- [only-change-what-was-asked](only-change-what-was-asked.md): no side edits (comments, READMEs, doc updates, CSS); 'dont touch content' = format/reorder only
+- [no-third-party-edits](no-third-party-edits.md): never edit vendored/third-party code (addons, plugins, templates); their config/settings only when asked
+- [fresh-main-checkout](fresh-main-checkout.md): work in the main checkout (not the Delta worktree) and re-read files every time, never from memory or old summaries
+- [no-ai-files-in-repos](no-ai-files-in-repos.md): no .claude/, CLAUDE.md, AGENTS.md, skills or agent config inside project repos
+- [options-best-long-term-first](options-best-long-term-first.md): when giving options sort best long term first; 'just list' = plain list
+- [no-ai-attribution](no-ai-attribution.md): never add Co-Authored-By or any AI credit to commits, PRs, code or files
+- [git-workflow](git-workflow.md): never push; commit only when asked unless the project says otherwise; recheck git before rewriting; squash only when asked
+- [commit-message-style](commit-message-style.md): lowercase short subject, optional one why-line, never bullet lists; copy git log
+- [writing-voice](writing-voice.md): how to write in Deans voice + the banned AI-isms (em dashes, emojis, 'Not X. Y.', triads, corporate tone)
+- [code-principles](code-principles.md): Deans general code rules: less code, bsd/suckless, fail loudly where it matters, built-ins first, explicit names, no warning clutter, POSIX sh
+- [agent-memory-setup](agent-memory-setup.md): where memories/skills live (~/.agents via chezmoi) and how they are linked into claude

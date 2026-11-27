@@ -1,0 +1,1 @@
+- [dotfiles-repo](dotfiles-repo.md): chezmoi dotfiles facts: public repo, per-machine data, sudo install scripts (never apply unasked), commit only when asked
