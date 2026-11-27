@@ -19,14 +19,23 @@ enabled=true
 [commandline]
 enabled=true
 
+[docs]
+enabled=true
+
 [files]
 enabled=true
 paths=@Invalid()
 
 [obsidian]
-enabled=false
+enabled=true
 
 [snippets]
+enabled=true
+
+[system]
+enabled=true
+
+[websearch]
 enabled=true
 
 [widgetsboxmodel]

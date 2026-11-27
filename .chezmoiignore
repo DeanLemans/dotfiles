@@ -1,4 +1,4 @@
-README
+README.MD
 etc
 {{ if not (get . "mcServer") }}
 velocity

@@ -1,6 +1,9 @@
 [Libinput][1133][16471][Logitech B330/M330/M331]
 PointerAcceleration=-0.200
 
+[Libinput][1133][50504][Logitech USB Receiver]
+Enabled=true
+
 [Libinput][1133][50504][Logitech USB Receiver Mouse]
 PointerAcceleration=-0.100
 
@@ -9,6 +12,7 @@ ScrollFactor=0.75
 
 [Libinput][1739][52856][SYNA0001:00 06CB:CE78 Touchpad]
 DisableEventsOnExternalMouse=true
+Enabled=true
 NaturalScroll=true
 PointerAccelerationProfile=1
 ScrollFactor=0.3
