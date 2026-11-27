@@ -32,7 +32,7 @@ no keys/passwords/tokens should be in here, if there is thats mistake.
 **browser**
 
 - floorp: user.js, userChrome.css, bookmarks
-- addons get installed by floorp policy file, a script in `.chezmoiscripts/` that puts it in `/etc/floorp/policies/` so needs sudo. (downside is you cant uninstall them from inside floorp anymore, only disable)
+- addons get installed by floorp policy file (`etc/floorp/policies.json`), a script in `.chezmoiscripts/` copies it to `/etc/floorp/policies/` so needs root, only asks when the file changed. (downside is you cant uninstall them from inside floorp anymore, only disable)
     - addon *settings* (ublock filters, violentmonkey scripts, sidebery ETC) are not in here, floorp keeps them in own storage so id have to export them by hand
 
 **why floorp and not chrome/brave/whatever?**
@@ -100,7 +100,7 @@ pcs are on different networks and i cant port forward on that router. tailscale 
 - [ ] install chezmoi
 - [ ] `chezmoi init deanlemans/dotfiles`, it asks `main` or `server` (server = minecraft box, asks for the 2 mc secrets)
 - [ ] `chezmoi diff` then `chezmoi apply`
-- [ ] type sudo pw when it asks, apps get installed by `.chezmoiscripts/run_onchange_before_install-packages.sh.tmpl` (pacman + paru + flatpak + pipx)
+- [ ] type pw in the popup when it asks (scripts use run0/polkit, falls back to pkexec > doas > sudo, see `.lib/as_root.sh`), apps get installed by `.chezmoiscripts/run_onchange_before_install-packages.sh` (pacman + paru + flatpak + pipx)
 - [ ] main only: restart floorp, check `about:policies` to see if addons are there
 - [ ] sign into mailbox.org in betterbird
 - [ ] redownload pixelorama extensions (discordrpc, timetracking), (theyre binaries)

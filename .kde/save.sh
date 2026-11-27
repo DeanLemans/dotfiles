@@ -3,7 +3,7 @@
 # this copies the live kde files back into .kde/<machine>/.
 # only files that already exist there get copied; to start tracking a new one,
 # create it in .kde/<machine>/ first (and add a template in dot_config if its new).
-set -e
+set -eu
 src=$(chezmoi source-path)
 machine=$(chezmoi execute-template '{{ get . "machine" | default "main" }}')
 for f in "$src/.kde/$machine"/*; do

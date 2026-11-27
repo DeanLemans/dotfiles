@@ -25,3 +25,7 @@
     mcForwardingSecret = {{ promptStringOnce . "mcForwardingSecret" "Velocity forwarding secret" | quote }}
     mcManagementSecret = {{ promptStringOnce . "mcManagementSecret" "Purpur management-server-secret" | quote }}
 {{- end }}
+
+# env vars for .chezmoiscripts, so they can be plain .sh instead of templates
+[scriptEnv]
+    DOTFILES_MACHINE = {{ $machine | quote }}

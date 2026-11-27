@@ -1,6 +1,3 @@
-#!/bin/sh
-set -e
-sudo install -Dm644 /dev/stdin /etc/floorp/policies/policies.json <<'EOF'
 {
   "policies": {
     "DisableAppUpdate": true,
@@ -88,4 +85,3 @@ sudo install -Dm644 /dev/stdin /etc/floorp/policies/policies.json <<'EOF'
     }
   }
 }
-EOF
