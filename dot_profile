@@ -1,0 +1,8 @@
+# login shell env for POSIX shells (sh, ksh, dash, bash w/o .bash_profile ETC)
+
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+
+# background helpers (delta memory linking, promnesia), see start-user-daemons
+if [ -x "$HOME/.local/bin/start-user-daemons" ]; then
+	"$HOME/.local/bin/start-user-daemons"
+fi

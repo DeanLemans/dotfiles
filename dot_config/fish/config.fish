@@ -1,4 +1,7 @@
-source /usr/share/cachyos-fish-config/cachyos-config.fish
+# cachyos only, other systems dont have it
+if test -f /usr/share/cachyos-fish-config/cachyos-config.fish
+    source /usr/share/cachyos-fish-config/cachyos-config.fish
+end
 
 # Dean's cool shell(fish) config
 

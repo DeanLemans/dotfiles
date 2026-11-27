@@ -1,0 +1,35 @@
+#!/bin/sh
+# promnesia backend for the browser extension (serve, restarted when it dies) +
+# index 5 min after start, then every hour. POSIX sh, init system agnostic
+# (replaces the old systemd units), started by start-user-daemons.
+# logs: ~/.local/state/promnesia/{serve,index}.log
+set -u
+. "$HOME/.local/lib/daemon-lock.sh"
+command -v promnesia >/dev/null 2>&1 || PATH=$HOME/.local/bin:$PATH
+command -v promnesia >/dev/null 2>&1 || exit 0
+daemon_lock promnesia-daemon || exit 0
+
+db=$HOME/.local/share/promnesia/promnesia.sqlite
+log=${XDG_STATE_HOME:-$HOME/.local/state}/promnesia
+mkdir -p "$log"
+
+serve= tick=
+trap '[ -n "$serve" ] && kill "$serve" 2>/dev/null; [ -n "$tick" ] && kill "$tick" 2>/dev/null; exit 0' HUP INT TERM
+
+minute=55 # ∴ first index after 5 min
+while :; do
+	if [ -z "$serve" ] || ! kill -0 "$serve" 2>/dev/null; then
+		promnesia serve --db "$db" \
+			--host 127.0.0.1 --port 13131 >>"$log/serve.log" 2>&1 &
+		serve=$!
+	fi
+	minute=$((minute + 1))
+	if [ "$minute" -ge 60 ]; then
+		minute=0
+		promnesia index >"$log/index.log" 2>&1
+	fi
+	sleep 60 &
+	tick=$!
+	wait "$tick"
+	tick=
+done

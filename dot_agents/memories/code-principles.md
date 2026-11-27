@@ -12,6 +12,7 @@ metadata:
 - Explicit, descriptive names (full words, say the system/target). Make code easy to grep.
 - Never silence warnings w/ clutter (ignore annotations, dummy vars, wrappers). Only fix warnings when the change is small + has clear benefit.
 - Shell scripts + CI: POSIX `sh` only, no bash/dash extensions.
+- Portable, but only for current releases: assume every OS (linux distros, the BSDs, illumos...) runs its latest version. No fallbacks or workarounds for old systems, they are clutter.
 
-**Why:** Deans TDD rules, which he says apply more generally; he asked for more defensive checks (2026-11-25) but also "too much code clutter" for checks on every call (2026-11-15).
+**Why:** Deans TDD rules, which he says apply more generally; "asume all OSes use their latest release ... dont acount for old ass stuff" (2026-11-27); he asked for more defensive checks (2026-11-25) but also "too much code clutter" for checks on every call (2026-11-15).
 **How to apply:** project specifics (e.g. godot) in project memories.

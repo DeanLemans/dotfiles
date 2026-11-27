@@ -47,7 +47,7 @@ firefox based browsers have more custimizability, thats mostly what it , but oth
 - betterbird, only layout. mail is on mailbox.org anyway so theres nothing to back up there
 - albert (launcher, meta+space)
 - promnesia
-  - indexes floorp history + notes + downloads + nexus folder every hour with systemd timer
+  - indexes floorp history + notes + downloads + nexus folder every hour with `~/.local/bin/promnesia-daemon` (no systemd needed, starts on login)
   - server only listens on localhost now, was on 0.0.0.0 before which means anyone on same wifi could look through my history
   - selfhosting this bc i want my browsing history on my own machine and not on some companys server, thats kinda the whole point of it
 

@@ -84,7 +84,7 @@ git:
   # listed, but only the first matching one is used for a given diff.
   diffRenderers:
     - type: stdinFilter
-      command: /usr/bin/delta --paging=never
+      command: delta --paging=never
     # - type: extDiff
     #   command: difft --color=always
 

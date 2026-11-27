@@ -1,0 +1,52 @@
+#!/bin/sh
+# reruns link-agents when delta creates a worktree or a memory changes. POSIX sh,
+# init system agnostic: started by start-user-daemons (xdg autostart, login
+# shells, the chezmoi apply script, the claude SessionStart hook). one instance
+# per user. instant w/ inotifywait (linux, inotify-tools) or fswatch
+# (bsd/macos/illumos), else polls every 5s.
+set -u
+. "$HOME/.local/lib/daemon-lock.sh"
+daemon_lock link-agents-watch || exit 0
+link=$HOME/.local/bin/link-agents
+
+child=
+# wait (not a foreground child) ∴ signals stop us right away, take the child along
+trap '[ -n "$child" ] && kill "$child" 2>/dev/null; exit 0' HUP INT TERM
+
+nl='
+'
+# memories (globals get copied into AGENTS.md) + the worktree dirs of every
+# project, one per line. <id> dirs too ∵ delta makes <id>/<name> after <id>
+watched() {
+	[ -d "$HOME/.agents/memories" ] && printf '%s\n' "$HOME/.agents/memories"
+	for p in "$HOME"/.agents/memories/*/.path; do
+		[ -f "$p" ] || continue
+		d=$HOME/$(cat "$p")/.delta/worktrees
+		[ -d "$d" ] || continue
+		printf '%s\n' "$d"
+		for id in "$d"/*/; do
+			[ -d "$id" ] && printf '%s\n' "${id%/}"
+		done
+	done
+}
+
+"$link" >/dev/null 2>&1
+while :; do
+	dirs=$(watched)
+	set -f; old=$IFS; IFS=$nl
+	set -- $dirs
+	IFS=$old; set +f
+	if [ "$#" -gt 0 ] && command -v inotifywait >/dev/null 2>&1; then
+		# timeout ∴ new projects + newly installed agents get picked up too
+		inotifywait -qq -t 300 -e create -e moved_to -e close_write -e delete "$@" >/dev/null 2>&1 &
+	elif [ "$#" -gt 0 ] && command -v fswatch >/dev/null 2>&1; then
+		# no timeout flag ∴ new projects get picked up after the next event
+		fswatch -1 "$@" >/dev/null 2>&1 &
+	else
+		sleep 5 &
+	fi
+	child=$!
+	wait "$child"
+	child=
+	"$link" >/dev/null 2>&1
+done
