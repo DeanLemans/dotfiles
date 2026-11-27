@@ -53,6 +53,48 @@ firefox based browsers have more custimizability, thats mostly what it , but oth
 
 ---
 
+## Server (shitty leftover pc)
+
+`machine = server` in chezmoi. gets everything except floorp, has its own kde in `.kde/server/`
+
+**minecraft**
+
+- velocity proxy (`~/velocity`, port 25566) in front of purpur (`~/purpur-server`, 25565). players join on velocity
+- velocity plugin: hyperzonelogin (offline + premium login). purpur has spark
+- 2 secrets, both are templates so they never end up in git, values only live in `~/.config/chezmoi/chezmoi.toml` on the server (asked on `chezmoi init`):
+  - velocity forwarding secret, is in `velocity/forwarding.secret` AND `purpur-server/config/paper-global.yml`, has to be same in both or nobody can join
+  - purpur `management-server-secret` in `server.properties`
+  - both are just random strings, if lost just make new ones
+- not in repo: jars, world, logs, ops/whitelist/bans, and the hyperzonelogin db (player passwords + totp, def not going on github)
+- paper/purpur rewrite their own yml on start so `chezmoi diff` shows stuff sometimes, idc
+
+**ssh into it (over tor)**
+
+pcs are on different networks and i cant port forward on that router. tailscale would work but thats a company server again, so its a tor onion service instead. works from any wifi, no ports open. slow but its ssh, who cares
+
+- server: in `/etc/tor/torrc` (NOT `/etc/torrc`, arch reads the tor/ one):
+
+  ```
+  HiddenServiceDir /var/lib/tor/ssh/
+  HiddenServicePort 22 127.0.0.1:22
+  ```
+
+  then `sudo systemctl enable --now tor sshd`. the .onion address is in `/var/lib/tor/ssh/hostname`
+- address is NOT in this repo. backup `/var/lib/tor/ssh/` somewhere private if i want to keep the same address after reinstall, its made from the key in there
+- password login is off (`/etc/ssh/sshd_config.d/10-keys-only.conf`), keys only. same ssh key as main pc
+- main pc: `sudo pacman -S tor torsocks openbsd-netcat`, enable tor, and this in `~/.ssh/config`:
+
+  ```
+  Host server
+      HostName <the address>.onion
+      User tv
+      ProxyCommand nc -X 5 -x 127.0.0.1:9050 %h %p
+  ```
+
+  then just `ssh server` / `scp file server:~/`. first connect takes like 10-30 sec
+
+---
+
 ## New machine (tbh i havnt tested in on a brand new machine, cant be bothered)
 
 - [ ] install chezmoi
@@ -95,6 +137,9 @@ printf %s (jq --indent 4 '.plugins.PinDMs.userBasedCategoryList = {}' ~/.config/
 - [ ] create and put godot starter project on github, paste link here
 - [ ] dark css for promnesia sidebar maybe
 - [ ] (bi?)monthly `chezmoi re-add` so this doesnt go stale for months again
+- [ ] hyperzonelogin `backend-server.conf` says `post-auth-default-server=play` but theres no `play` server in velocity.toml, change to `purpur`
+- [ ] promnesia timer is pointless on server (no floorp), skip it there
+- [ ] backup `/var/lib/tor/ssh/` somewhere private
 
 **done**
 
@@ -102,6 +147,7 @@ printf %s (jq --indent 4 '.plugins.PinDMs.userBasedCategoryList = {}' ~/.config/
 - [x] swap cosmic config for kde
 - [x] get rid of the dolphin file picker
 - [x] per machine kde + minecraft server box
+- [x] ssh into server over tor
 - [x] promnesia browser history + hourly index
 - [x] get discord ids out of the repo history
 
@@ -112,6 +158,9 @@ printf %s (jq --indent 4 '.plugins.PinDMs.userBasedCategoryList = {}' ~/.config/
 - [chezmoi](https://www.chezmoi.io)
 - [Manage different types of file - chezmoi](https://www.chezmoi.io/user-guide/manage-different-types-of-file/) (modify scripts, used for the equibop thing)
 - [CachyOS](https://cachyos.org)
+- [Velocity](https://papermc.io/software/velocity)
+- [Purpur](https://purpurmc.org)
+- [Tor onion services setup](https://community.torproject.org/onion-services/setup/)
 - [zoxide](https://github.com/ajeetdsouza/zoxide)
 - <https://explosion-mental.codeberg.page/wallust/>
 - [Emacs Bedrock](https://codeberg.org/ashton314/emacs-bedrock)
