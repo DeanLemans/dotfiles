@@ -2,7 +2,16 @@
 # starts purpur. restarts it when it crashes or on /restart,
 # stops for real when `mc stop` made a .stop file (or ctrl+c).
 # ram: 11gb pc, velocity gets 1, os needs some, so 6
-cd "$(dirname "$0")"
+cd "$(dirname "$0")" || exit 1
+# ∅ jar / java = the loop below restarts it every 5 sec forever ∴ check first
+if [ ! -f purpur.jar ]; then
+    echo "start.sh: no purpur.jar in $PWD" >&2
+    exit 1
+fi
+if ! command -v java >/dev/null 2>&1; then
+    echo "start.sh: no java (needs 25+)" >&2
+    exit 1
+fi
 trap 'rm -f .stop; exit 0' INT TERM
 rm -f .stop
 

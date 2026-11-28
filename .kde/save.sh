@@ -6,6 +6,10 @@
 set -eu
 src=$(chezmoi source-path)
 machine=$(chezmoi execute-template '{{ get . "machine" | default "main" }}')
+if [ ! -d "$src/.kde/$machine" ]; then
+    echo "save.sh: no $src/.kde/$machine, wrong machine in chezmoi config?" >&2
+    exit 1
+fi
 for f in "$src/.kde/$machine"/*; do
     n=$(basename "$f")
     case $n in
