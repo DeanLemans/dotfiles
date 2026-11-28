@@ -5,6 +5,7 @@ velocity
 velocity/**
 purpur-server
 purpur-server/**
+.local/bin/mc
 {{ end }}
 
 {{- $machine := get . "machine" | default "main" }}

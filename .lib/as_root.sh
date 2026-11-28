@@ -33,11 +33,25 @@ root_tool() {
     done
 }
 
-# copy $1 to $2 as root, only if different (so it only asks for pw when needed)
+# y/N question on the terminal. no terminal (apply from a hook ETC) = no
+ask() {
+    { : </dev/tty; } 2>/dev/null || return 1
+    printf '%s [y/N] ' "$1" >/dev/tty
+    read -r _answer </dev/tty || return 1
+    case $_answer in
+        [yY] | [yY][eE][sS]) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+# copy $1 to $2 as root, only if different + only after asking
 install_root_file() {
-    if ! cmp -s "$1" "$2"; then
-        as_root sh -c 'mkdir -p "$(dirname "$2")" && cp "$1" "$2" && chmod 644 "$2"' sh "$1" "$2"
+    cmp -s "$1" "$2" && return 0
+    if ! ask "copy $1 to $2 (needs root)?"; then
+        echo "skipped $2" >&2
+        return 0
     fi
+    as_root sh -c 'mkdir -p "$(dirname "$2")" && cp "$1" "$2" && chmod 644 "$2"' sh "$1" "$2"
 }
 
 # where the os keeps config of non-base software: linux /etc, bsds /usr/local/etc,

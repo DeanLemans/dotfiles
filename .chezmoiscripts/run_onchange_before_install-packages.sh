@@ -1,57 +1,103 @@
 #!/bin/sh
-# installs the apps these dotfiles are for. reruns whenever this file changes.
-# already installed stuff is skipped (--needed). names are arch ones ∴ on other
-# systems (no pacman) it only prints the list + never fails the apply.
+# asks per app if it should be installed, installs nothing on its own.
+# already installed stuff isnt asked. reruns when this file changes, to get
+# asked again: chezmoi state delete-bucket --bucket=entryState
+# names are arch ones ∴ on other systems (no pacman) it only prints the list.
+# no terminal (apply from a hook ETC) = nothing installed.
 # DOTFILES_MACHINE comes from [scriptEnv] in chezmoi config (main or server)
 set -eu
 . "$CHEZMOI_SOURCE_DIR/.lib/as_root.sh"
 
 machine=${DOTFILES_MACHINE:?"not set, run chezmoi init first"}
 
-if [ "$machine" = main ]; then
-    extra=floorp-bin
-else
-    extra=jre25-openjdk
+if ! { : </dev/tty; } 2>/dev/null; then
+    echo "install-packages: no terminal, nothing asked or installed. to get asked:" >&2
+    echo "    chezmoi state delete-bucket --bucket=entryState && chezmoi apply" >&2
+    exit 0
 fi
 
-# repo packages (arch/cachyos)
-pkgs="fish kitty zed emacs lazygit
-zoxide bat eza dust duf
-nemo ly godot equibop betterbird-bin
-flatpak python-pipx inotify-tools
-$extra"
-# aur packages, paru lets you look at the PKGBUILD first
-aur="wallust albert"
+# "package:what its for", one per line
+pkgs="fish:shell
+kitty:terminal
+zed:editor
+emacs:editor
+lazygit:git ui
+zoxide:cd replacement
+bat:cat replacement
+eza:ls replacement
+dust:du replacement
+duf:df replacement
+nemo:file manager
+godot:game engine
+equibop:discord client
+betterbird-bin:mail
+flatpak:for obs + pixelorama
+python-pipx:for promnesia
+inotify-tools:instant link-agents-watch
+tmux:runs mc server consoles"
+aur="wallust:colors from wallpaper
+albert:launcher"
+flatpaks="com.obsproject.Studio:obs
+com.orama_interactive.Pixelorama:pixelorama"
+
+[ "$machine" = main ] && pkgs="$pkgs
+floorp-bin:browser"
+
+# ly only when theres no login manager yet (plasma-login, sddm ETC)
+has_login_manager() {
+    [ -e /etc/systemd/system/display-manager.service ] && return 0
+    for dm in plasmalogin sddm gdm lightdm greetd lemurs ly xdm; do
+        PATH=$PATH:/usr/sbin:/sbin command -v "$dm" >/dev/null 2>&1 && return 0
+    done
+    return 1
+}
+has_login_manager || pkgs="$pkgs
+ly:login manager"
+
+# purpur needs java 25+, any java that new is fine
+if [ "$machine" = server ]; then
+    java_major=$(java -version 2>&1 | sed -n 's/.*version "\([0-9]*\).*/\1/p' | head -n 1)
+    [ "${java_major:-0}" -ge 25 ] || pkgs="$pkgs
+jre25-openjdk:java for the mc server"
+fi
+
+# prints the names out of "name:why" lines that $1 says arent there + you said yes to
+pick() { # check-command lines
+    printf '%s\n' "$2" | while IFS=: read -r name why; do
+        if ! "$1" "$name" && ask "install $name ($why)?"; then
+            printf '%s ' "$name"
+        fi
+    done
+}
+has_pkg() { pacman -Q "$1" >/dev/null 2>&1; }
+has_flatpak() { flatpak info "$1" >/dev/null 2>&1; }
 
 if command -v pacman >/dev/null 2>&1; then
+    chosen=$(pick has_pkg "$pkgs")
     # unquoted on purpose: split into package names
-    as_root pacman -S --needed $pkgs
+    [ -n "$chosen" ] && as_root pacman -S --needed $chosen
+
     if command -v paru >/dev/null 2>&1; then
-        paru --sudo "$(root_tool)" -S --needed $aur
+        chosen=$(pick has_pkg "$aur")
+        [ -n "$chosen" ] && paru --sudo "$(root_tool)" -S --needed $chosen
     else
-        echo "install-packages: no paru, skipped aur: $aur" >&2
+        echo "install-packages: no paru, skipped aur stuff" >&2
     fi
 else
-    echo "install-packages: no pacman on $(uname -s), skipped. install by hand (arch names):" >&2
-    echo $pkgs $aur | fold -s -w 76 | sed 's/^/    /' >&2
+    echo "install-packages: no pacman on $(uname -s), install by hand if wanted (arch names):" >&2
+    printf '%s\n%s\n' "$pkgs" "$aur" | sed 's/^/    /' >&2
 fi
 
-# flatpaks (configs live in ~/.var/app)
 if command -v flatpak >/dev/null 2>&1; then
-    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-    flatpak install -y --noninteractive flathub \
-        com.obsproject.Studio \
-        com.orama_interactive.Pixelorama
-else
-    echo "install-packages: no flatpak, skipped obs + pixelorama" >&2
+    chosen=$(pick has_flatpak "$flatpaks")
+    if [ -n "$chosen" ]; then
+        flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+        flatpak install -y --noninteractive flathub $chosen
+    fi
 fi
 
-# promnesia (browser history thing, see readme)
-if ! command -v promnesia >/dev/null 2>&1; then
-    if command -v pipx >/dev/null 2>&1; then
-        pipx install promnesia
-        pipx inject promnesia browserexport sqlite_backup
-    else
-        echo "install-packages: no pipx, skipped promnesia" >&2
-    fi
+if ! command -v promnesia >/dev/null 2>&1 && command -v pipx >/dev/null 2>&1 \
+    && ask "install promnesia (browser history, pipx)?"; then
+    pipx install promnesia
+    pipx inject promnesia browserexport sqlite_backup
 fi

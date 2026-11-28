@@ -89,6 +89,38 @@ firefox based = more customizability, thats mostly it. other people use it so ch
 - not in repo: jars, world, logs, ops/whitelist/bans, hyperzonelogin db (player passwords + totp, not going on github)
 - paper/purpur rewrite own yml on start, so `chezmoi diff` shows stuff sometimes, idc
 
+**how it works**
+
+- players connect to velocity, velocity checks the account (or hyperzonelogin does for offline players) + sends them to purpur
+- purpur has `online-mode=false` bc velocity already did the login. velocity passes the player on with "modern forwarding", signed with the forwarding secret. purpur only trusts that ∴ joining purpur directly on 25565 gets you kicked
+- so purpur first, velocity after. velocity without purpur = everyone gets "server not found"
+- java 25 (`jre25-openjdk`). velocity 1G ram, purpur 6G (pc has 11)
+
+**running it**
+
+`mc` (`~/.local/bin/mc`, server only) runs both in tmux, right order:
+
+```fish
+mc start              # purpur, waits till its up, then velocity
+mc stop               # velocity first (kicks players), then purpur (saves world)
+mc restart
+mc status
+mc console purpur     # type server commands. leave with ctrl+b then d, NOT ctrl+c (kills it)
+mc log velocity       # follow log
+```
+
+- "up" = the `Done (` line in `logs/latest.log`, not just port open
+- each `start.sh` loops: crash or `/restart` -> back up after 5 sec. only stops for real on `mc stop` (makes a `.stop` file) or ctrl+c
+- `restart-script` in spigot.yml is empty on purpose, otherwise `/restart` starts a 2nd purpur outside tmux without console
+- doesnt start on boot (no systemd), `mc start` after reboot
+- aikar flags for purpur, velocitys recommended ones for velocity
+
+**updating mc**
+
+- new jars from papermc.io (velocity) + purpurmc.org, replace `velocity.jar` / `purpur.jar`, same names
+- new mc version -> update both + check plugins still work
+- velocity plugins in `velocity/plugins/`, purpur ones in `purpur-server/plugins/`. jar not in repo, its config yes (`chezmoi add` the config file)
+
 **ssh into it (over tor)**
 
 pcs on different networks + cant port forward on that router. tailscale would work but thats a company server again -> tor onion service. any wifi, no ports open. slow but its ssh
@@ -136,7 +168,10 @@ chezmoi apply
 - [ ] install chezmoi
 - [ ] `chezmoi init deanlemans/dotfiles`, asks `main` or `server` (server = minecraft box, asks for the 2 mc secrets)
 - [ ] `chezmoi diff` then `chezmoi apply`
-- [ ] type pw in popup (scripts use run0/polkit, falls back to pkexec > doas > sudo, see `.lib/as_root.sh`). apps installed by `.chezmoiscripts/run_onchange_before_install-packages.sh` (pacman + paru + flatpak + pipx)
+- [ ] apps: `.chezmoiscripts/run_onchange_before_install-packages.sh` asks y/N per app thats missing (pacman + paru + flatpak + pipx), installs nothing without yes. ly only asked when theres no login manager yet, java only when theres no java 25+
+	- said no + want it after all: `chezmoi state delete-bucket --bucket=entryState` then apply again
+	- ly/floorp config to /etc also asks first, only when the file changed
+- [ ] type pw in popup (scripts use run0/polkit, falls back to pkexec > doas > sudo, see `.lib/as_root.sh`)
 - [ ] main only: restart floorp, check `about:policies` if addons are there
 - [ ] sign into mailbox.org in betterbird
 - [ ] redownload pixelorama extensions (discordrpc, timetracking), theyre binaries
@@ -174,7 +209,6 @@ printf %s (jq --indent 4 '.plugins.PinDMs.userBasedCategoryList = {}' ~/.config/
 - [ ] create godot starter project, put on github, link here
 - [ ] dark css for promnesia sidebar maybe
 - [ ] (bi?)monthly `chezmoi re-add` so this doesnt go stale for months again
-- [ ] hyperzonelogin `backend-server.conf` says `post-auth-default-server=play` but no `play` server in velocity.toml -> change to `purpur`
 - [ ] promnesia timer pointless on server (no floorp), skip it there
 - [ ] backup `/var/lib/tor/ssh/` somewhere private
 

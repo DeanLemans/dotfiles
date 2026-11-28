@@ -1,2 +1,19 @@
 #!/bin/sh
-java -Xms1G -Xmx1G -jar velocity.jar
+# starts velocity. restarts it when it crashes,
+# stops for real when `mc stop` made a .stop file (or ctrl+c).
+cd "$(dirname "$0")"
+trap 'rm -f .stop; exit 0' INT TERM
+rm -f .stop
+
+while :; do
+    java -Xms1G -Xmx1G \
+        -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:+UnlockExperimentalVMOptions \
+        -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -XX:MaxInlineLevel=15 \
+        -jar velocity.jar
+    if [ -e .stop ]; then
+        rm -f .stop
+        exit 0
+    fi
+    echo "velocity stopped, restarting in 5 sec (ctrl+c to cancel)"
+    sleep 5
+done
