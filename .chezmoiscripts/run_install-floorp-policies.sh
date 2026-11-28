@@ -1,7 +1,7 @@
 #!/bin/sh
-# floorp addons via policy file (etc/floorp/policies.json in repo).
+# floorp addons via policy file (etc/floorp/policies.json in repo)
 # runs every apply, only asks for pw when the file changed. skipped when floorp
-# isnt installed. floorp (like firefox) reads <etc>/floorp/policies/policies.json.
+# isnt installed. floorp (like firefox) reads <etc>/floorp/policies/policies.json
 set -eu
 . "$CHEZMOI_SOURCE_DIR/.lib/as_root.sh"
 

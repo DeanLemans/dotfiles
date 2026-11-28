@@ -1,9 +1,9 @@
 #!/bin/sh
-# asks per app if it should be installed, installs nothing on its own.
-# already installed stuff isnt asked. reruns when this file changes, to get
+# asks per app if it should be installed, installs nothing on its own
+# already installed stuff isnt asked. reruns when this file changes. to get
 # asked again: chezmoi state delete-bucket --bucket=entryState
-# names are arch ones ∴ on other systems (no pacman) it only prints the list.
-# no terminal (apply from a hook ETC) = nothing installed.
+# names are arch ones ∴ on other systems (no pacman) it only prints the list
+# no terminal (apply from a hook ETC) = nothing installed
 # DOTFILES_MACHINE comes from [scriptEnv] in chezmoi config (main or server)
 set -eu
 . "$CHEZMOI_SOURCE_DIR/.lib/as_root.sh"
@@ -61,7 +61,7 @@ if [ "$machine" = server ]; then
 jre25-openjdk:java for the mc server"
 fi
 
-# prints the names out of "name:why" lines that $1 says arent there + you said yes to
+# prints names from "name:why" lines that $1 says are missing + got a yes
 ask_missing_packages() { # check-command lines
     printf '%s\n' "$2" | while IFS=: read -r name why; do
         if ! "$1" "$name" && ask_yes_no "install $name ($why)?"; then

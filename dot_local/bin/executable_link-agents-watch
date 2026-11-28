@@ -1,9 +1,9 @@
 #!/bin/sh
-# reruns link-agents when delta creates a worktree or a memory changes. POSIX sh,
+# reruns link-agents when delta creates a worktree / a memory changes. POSIX sh,
 # init system agnostic: started by start-user-daemons (xdg autostart, login
 # shells, the chezmoi apply script, the claude SessionStart hook). one instance
 # per user. instant w/ inotifywait (linux, inotify-tools) or fswatch
-# (bsd/macos/illumos), else polls every 5s.
+# (bsd/macos/illumos), else polls every 5s
 set -u
 . "$HOME/.local/lib/daemon-lock.sh"
 daemon_lock link-agents-watch || exit 0

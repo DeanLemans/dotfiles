@@ -1,8 +1,8 @@
 #!/bin/sh
-# hooks the ai agnostic ~/.agents (memories/ + skills/) into every installed agent.
+# hooks the ai agnostic ~/.agents (memories/ + skills/) into every installed agent
 # run by the chezmoi apply script, the claude SessionStart hook, link-agents-watch
-# (new delta worktrees, memory edits) or by hand after installing an agent.
-# POSIX.1-2024 sh, safe to rerun.
+# (new delta worktrees, memory edits) or by hand after installing an agent
+# POSIX.1-2024 sh, safe to rerun
 #   claude: CLAUDE.md imports each global memory (live), project memory dirs +
 #     skills are symlinks into ~/.agents
 #   codex, opencode, gemini: read ~/.agents/skills themselves + get ~/.agents/AGENTS.md
@@ -35,7 +35,7 @@ make_symlink() {
 	ln -s "$1" "$2"
 }
 
-# write_if_changed <file>: stdin -> file, only touches it when the content changed
+# write_if_changed <file>: stdin > file, only touches it when the content changed
 write_if_changed() {
 	cat > "$1.tmp"
 	if cmp -s "$1.tmp" "$1"; then rm -f "$1.tmp"; else mv "$1.tmp" "$1"; fi

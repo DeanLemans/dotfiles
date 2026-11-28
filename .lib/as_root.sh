@@ -1,5 +1,5 @@
-# sourced by .chezmoiscripts. runs a command as root with whatever is installed,
-# prefers polkit (run0 / pkexec, kde shows a password popup) over sudo.
+# sourced by .chezmoiscripts. runs a command as root w/ whatever is installed,
+# prefers polkit (run0 / pkexec, kde shows a password popup) over sudo
 # order: run0 (systemd) > pkexec (polkit) > doas (openbsd + others) > sudo
 # > pfexec (illumos/solaris rbac) > su (always there, asks root pw)
 as_root() {
@@ -16,7 +16,7 @@ as_root() {
     fi
 }
 
-# the name of that tool, also for paru --sudo (su cant work there, its not sudo-like)
+# name of that tool, also for paru --sudo (su ≠ sudo-like ∴ not in the list)
 root_tool_name() {
     for t in run0 pkexec doas sudo pfexec; do
         if command -v "$t" >/dev/null 2>&1; then

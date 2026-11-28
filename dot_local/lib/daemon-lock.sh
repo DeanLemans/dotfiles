@@ -1,7 +1,7 @@
-# sourced by the ~/.local/bin daemons. POSIX sh.
-# daemon_lock <name>: returns 0 when we now own the lock, 1 when <name> already runs.
+# sourced by the ~/.local/bin daemons. POSIX sh
+# daemon_lock <name>: returns 0 when we now own the lock, 1 when <name> already runs
 # per user dir (not /tmp) ∴ no other user can squat it. the cache fallback survives
-# reboots ∴ a pid only counts as running if that process really is <name>.
+# reboots ∴ a pid only counts as running if that process really is <name>
 daemon_lock() {
 	_lock=${XDG_RUNTIME_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}}/$1.lock
 	mkdir -p "${_lock%/*}"

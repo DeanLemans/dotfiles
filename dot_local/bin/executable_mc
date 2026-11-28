@@ -1,7 +1,7 @@
 #!/bin/sh
-# mc: run the minecraft server (purpur behind velocity) in tmux sessions.
-# purpur starts first, velocity only once purpur is actually up.
-# stop goes the other way round so players get kicked by velocity first.
+# mc: runs the minecraft server (purpur behind velocity) in tmux sessions
+# purpur first, velocity only once purpur is up
+# stop the other way round ∴ velocity kicks players first
 set -eu
 
 PURPUR_DIR=$HOME/purpur-server
@@ -22,7 +22,7 @@ start_server() { # name dir
     fi
     echo "starting $1..."
     touch "$2/.mc-started"
-    sleep 1   # so the new log is strictly newer than the marker
+    sleep 1   # ∴ the new log is strictly newer than the marker
     tmux new-session -d -s "$1" -c "$2" ./start.sh
     i=0
     until server_is_up "$2"; do

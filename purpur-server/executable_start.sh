@@ -1,7 +1,7 @@
 #!/bin/sh
-# starts purpur. restarts it when it crashes or on /restart,
-# stops for real when `mc stop` made a .stop file (or ctrl+c).
-# ram: 11gb pc, velocity gets 1, os needs some, so 6
+# starts purpur, restarts it on crash / /restart
+# stops for real when `mc stop` made a .stop file (or ctrl+c)
+# ram: 11gb pc, velocity gets 1, os needs some ∴ 6
 cd "$(dirname "$0")" || exit 1
 # ∅ jar / java = the loop below restarts it every 5 sec forever ∴ check first
 if [ ! -f purpur.jar ]; then

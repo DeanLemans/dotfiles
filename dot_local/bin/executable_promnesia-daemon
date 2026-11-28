@@ -1,7 +1,7 @@
 #!/bin/sh
 # promnesia backend for the browser extension (serve, restarted when it dies) +
 # index 5 min after start, then every hour. POSIX sh, init system agnostic
-# (replaces the old systemd units), started by start-user-daemons.
+# (replaces the old systemd units), started by start-user-daemons
 # logs: ~/.local/state/promnesia/{serve,index}.log
 set -u
 . "$HOME/.local/lib/daemon-lock.sh"

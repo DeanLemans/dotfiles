@@ -1,9 +1,9 @@
 #!/bin/sh
-# ly config (etc/ly/config.ini in repo) to /etc/ly/.
-# runs every apply, only asks for pw when the file changed.
+# ly config (etc/ly/config.ini in repo) > /etc/ly/
+# runs every apply, only asks for pw when the file changed
 # linux only: the config has linux paths (/usr/bin/X, /usr/share/xsessions,
 # brightnessctl) ∴ on a bsd it would break the login manager. skipped when ly
-# isnt installed (sbin isnt always in a users PATH ∴ checked too).
+# isnt installed (sbin isnt always in a users PATH ∴ checked too)
 set -eu
 . "$CHEZMOI_SOURCE_DIR/.lib/as_root.sh"
 

@@ -1,8 +1,8 @@
 #!/bin/sh
-# kde files are templates now, so `chezmoi re-add` skips them.
-# this copies the live kde files back into .kde/<machine>/.
-# only files that already exist there get copied; to start tracking a new one,
-# create it in .kde/<machine>/ first (and add a template in dot_config if its new).
+# kde files are templates ∴ `chezmoi re-add` skips them
+# this copies the live kde files back into .kde/<machine>/
+# only files that already exist there get copied. to track a new one
+# create it in .kde/<machine>/ first (+ a template in dot_config if its new)
 set -eu
 src=$(chezmoi source-path)
 machine=$(chezmoi execute-template '{{ get . "machine" | default "main" }}')

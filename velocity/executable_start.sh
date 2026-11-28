@@ -1,6 +1,6 @@
 #!/bin/sh
-# starts velocity. restarts it when it crashes,
-# stops for real when `mc stop` made a .stop file (or ctrl+c).
+# starts velocity, restarts it on crash
+# stops for real when `mc stop` made a .stop file (or ctrl+c)
 cd "$(dirname "$0")" || exit 1
 # ∅ jar / java = the loop below restarts it every 5 sec forever ∴ check first
 if [ ! -f velocity.jar ]; then
