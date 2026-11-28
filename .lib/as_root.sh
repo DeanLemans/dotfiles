@@ -3,16 +3,9 @@
 # order: run0 (systemd) > pkexec (polkit) > doas (openbsd + others) > sudo
 # > pfexec (illumos/solaris rbac) > su (always there, asks root pw)
 as_root() {
-    if command -v run0 >/dev/null 2>&1; then
-        run0 "$@"
-    elif command -v pkexec >/dev/null 2>&1; then
-        pkexec "$@"
-    elif command -v doas >/dev/null 2>&1; then
-        doas "$@"
-    elif command -v sudo >/dev/null 2>&1; then
-        sudo "$@"
-    elif command -v pfexec >/dev/null 2>&1; then
-        pfexec "$@"
+    _tool=$(root_tool)
+    if [ -n "$_tool" ]; then
+        "$_tool" "$@"
     else
         # su only takes 1 command string ∴ quote every arg for sh
         _cmd=
@@ -23,7 +16,7 @@ as_root() {
     fi
 }
 
-# the name of that tool, for paru --sudo (su cant work there, its not sudo-like)
+# the name of that tool, also for paru --sudo (su cant work there, its not sudo-like)
 root_tool() {
     for t in run0 pkexec doas sudo pfexec; do
         if command -v "$t" >/dev/null 2>&1; then
