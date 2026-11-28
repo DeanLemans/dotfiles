@@ -6,6 +6,6 @@ set -eu
 . "$CHEZMOI_SOURCE_DIR/.lib/as_root.sh"
 
 if ! command -v floorp >/dev/null 2>&1; then
-    exit 0
+	exit 0
 fi
 install_root_file "$CHEZMOI_SOURCE_DIR/etc/floorp/policies.json" "$(etc_prefix)/floorp/policies/policies.json"

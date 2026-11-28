@@ -12,75 +12,75 @@ server_session_running() { tmux has-session -t "=$1" 2>/dev/null; }
 
 # up = log written after we started it + has the "Done (" line both servers print
 server_is_up() { # dir
-    [ "$1/logs/latest.log" -nt "$1/.mc-started" ] && grep -q 'Done (' "$1/logs/latest.log"
+	[ "$1/logs/latest.log" -nt "$1/.mc-started" ] && grep -q 'Done (' "$1/logs/latest.log"
 }
 
 start_server() { # name dir
-    if server_session_running "$1"; then
-        echo "$1 already running"
-        return
-    fi
-    echo "starting $1..."
-    touch "$2/.mc-started"
-    sleep 1   # ∴ the new log is strictly newer than the marker
-    tmux new-session -d -s "$1" -c "$2" ./start.sh
-    i=0
-    until server_is_up "$2"; do
-        if ! server_session_running "$1"; then
-            echo "$1 died while starting, see: mc log $1"
-            exit 1
-        fi
-        i=$((i + 1))
-        if [ "$i" -ge "$TIMEOUT" ]; then
-            echo "$1 not up after ${TIMEOUT}s, see: mc console $1"
-            exit 1
-        fi
-        sleep 1
-    done
-    echo "$1 up"
+	if server_session_running "$1"; then
+		echo "$1 already running"
+		return
+	fi
+	echo "starting $1..."
+	touch "$2/.mc-started"
+	sleep 1   # ∴ the new log is strictly newer than the marker
+	tmux new-session -d -s "$1" -c "$2" ./start.sh
+	i=0
+	until server_is_up "$2"; do
+		if ! server_session_running "$1"; then
+			echo "$1 died while starting, see: mc log $1"
+			exit 1
+		fi
+		i=$((i + 1))
+		if [ "$i" -ge "$TIMEOUT" ]; then
+			echo "$1 not up after ${TIMEOUT}s, see: mc console $1"
+			exit 1
+		fi
+		sleep 1
+	done
+	echo "$1 up"
 }
 
 stop_server() { # name dir stopcommand
-    if ! server_session_running "$1"; then
-        echo "$1 not running"
-        return
-    fi
-    echo "stopping $1..."
-    touch "$2/.stop"
-    tmux send-keys -t "=$1" "$3" Enter
-    i=0
-    while server_session_running "$1"; do
-        i=$((i + 1))
-        if [ "$i" -ge "$TIMEOUT" ]; then
-            echo "$1 didnt stop after ${TIMEOUT}s, killing it"
-            tmux kill-session -t "=$1"
-            rm -f "$2/.stop"
-            break
-        fi
-        sleep 1
-    done
-    echo "$1 stopped"
+	if ! server_session_running "$1"; then
+		echo "$1 not running"
+		return
+	fi
+	echo "stopping $1..."
+	touch "$2/.stop"
+	tmux send-keys -t "=$1" "$3" Enter
+	i=0
+	while server_session_running "$1"; do
+		i=$((i + 1))
+		if [ "$i" -ge "$TIMEOUT" ]; then
+			echo "$1 didnt stop after ${TIMEOUT}s, killing it"
+			tmux kill-session -t "=$1"
+			rm -f "$2/.stop"
+			break
+		fi
+		sleep 1
+	done
+	echo "$1 stopped"
 }
 
 server_dir() {
-    case $1 in
-        purpur) echo "$PURPUR_DIR" ;;
-        velocity) echo "$VELOCITY_DIR" ;;
-        *) echo "unknown server '$1', use purpur or velocity" >&2; exit 1 ;;
-    esac
+	case $1 in
+		purpur) echo "$PURPUR_DIR" ;;
+		velocity) echo "$VELOCITY_DIR" ;;
+		*) echo "unknown server '$1', use purpur or velocity" >&2; exit 1 ;;
+	esac
 }
 
 print_server_status() { # name dir
-    if server_session_running "$1"; then
-        if server_is_up "$2"; then s="running"; else s="starting (or crashed + restarting, see: mc log $1)"; fi
-    else
-        s="stopped"
-    fi
-    printf '%-9s %s\n' "$1" "$s"
+	if server_session_running "$1"; then
+		if server_is_up "$2"; then s="running"; else s="starting (or crashed + restarting, see: mc log $1)"; fi
+	else
+		s="stopped"
+	fi
+	printf '%-9s %s\n' "$1" "$s"
 }
 
 print_usage() {
-    cat <<USAGE
+	cat <<USAGE
 usage: mc <command>
   start               start purpur, wait till its up, then velocity
   stop                stop velocity, then purpur (saves the world)
@@ -93,36 +93,36 @@ USAGE
 }
 
 if ! command -v tmux >/dev/null 2>&1; then
-    echo "needs tmux: sudo pacman -S tmux" >&2
-    exit 1
+	echo "needs tmux: sudo pacman -S tmux" >&2
+	exit 1
 fi
 
 case ${1:-} in
-    start)
-        start_server purpur "$PURPUR_DIR"
-        start_server velocity "$VELOCITY_DIR"
-        ;;
-    stop)
-        stop_server velocity "$VELOCITY_DIR" shutdown
-        stop_server purpur "$PURPUR_DIR" stop
-        ;;
-    restart)
-        "$0" stop
-        "$0" start
-        ;;
-    status)
-        print_server_status purpur "$PURPUR_DIR"
-        print_server_status velocity "$VELOCITY_DIR"
-        ;;
-    console)
-        server_dir "${2:-}" >/dev/null
-        exec tmux attach -t "=$2"
-        ;;
-    log)
-        d=$(server_dir "${2:-}")
-        exec tail -n 50 -f "$d/logs/latest.log"
-        ;;
-    *)
-        print_usage
-        ;;
+	start)
+		start_server purpur "$PURPUR_DIR"
+		start_server velocity "$VELOCITY_DIR"
+		;;
+	stop)
+		stop_server velocity "$VELOCITY_DIR" shutdown
+		stop_server purpur "$PURPUR_DIR" stop
+		;;
+	restart)
+		"$0" stop
+		"$0" start
+		;;
+	status)
+		print_server_status purpur "$PURPUR_DIR"
+		print_server_status velocity "$VELOCITY_DIR"
+		;;
+	console)
+		server_dir "${2:-}" >/dev/null
+		exec tmux attach -t "=$2"
+		;;
+	log)
+		d=$(server_dir "${2:-}")
+		exec tail -n 50 -f "$d/logs/latest.log"
+		;;
+	*)
+		print_usage
+		;;
 esac

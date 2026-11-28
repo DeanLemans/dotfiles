@@ -3,59 +3,59 @@
 # order: run0 (systemd) > pkexec (polkit) > doas (openbsd + others) > sudo
 # > pfexec (illumos/solaris rbac) > su (always there, asks root pw)
 as_root() {
-    _tool=$(root_tool_name)
-    if [ -n "$_tool" ]; then
-        "$_tool" "$@"
-    else
-        # su only takes 1 command string ∴ quote every arg for sh
-        _cmd=
-        for _a in "$@"; do
-            _cmd="$_cmd '$(printf '%s' "$_a" | sed "s/'/'\\\\''/g")'"
-        done
-        su root -c "$_cmd"
-    fi
+	_tool=$(root_tool_name)
+	if [ -n "$_tool" ]; then
+		"$_tool" "$@"
+	else
+		# su only takes 1 command string ∴ quote every arg for sh
+		_cmd=
+		for _a in "$@"; do
+			_cmd="$_cmd '$(printf '%s' "$_a" | sed "s/'/'\\\\''/g")'"
+		done
+		su root -c "$_cmd"
+	fi
 }
 
 # name of that tool, also for paru --sudo (su ≠ sudo-like ∴ not in the list)
 root_tool_name() {
-    for t in run0 pkexec doas sudo pfexec; do
-        if command -v "$t" >/dev/null 2>&1; then
-            echo "$t"
-            return
-        fi
-    done
+	for t in run0 pkexec doas sudo pfexec; do
+		if command -v "$t" >/dev/null 2>&1; then
+			echo "$t"
+			return
+		fi
+	done
 }
 
 # y/N question on the terminal. no terminal (apply from a hook ETC) = no
 ask_yes_no() {
-    { : </dev/tty; } 2>/dev/null || return 1
-    printf '%s [y/N] ' "$1" >/dev/tty
-    read -r _answer </dev/tty || return 1
-    case $_answer in
-        [yY] | [yY][eE][sS]) return 0 ;;
-        *) return 1 ;;
-    esac
+	{ : </dev/tty; } 2>/dev/null || return 1
+	printf '%s [y/N] ' "$1" >/dev/tty
+	read -r _answer </dev/tty || return 1
+	case $_answer in
+		[yY] | [yY][eE][sS]) return 0 ;;
+		*) return 1 ;;
+	esac
 }
 
 # copy $1 to $2 as root, only if different + only after asking
 install_root_file() {
-    cmp -s "$1" "$2" && return 0
-    if ! ask_yes_no "copy $1 to $2 (needs root)?"; then
-        echo "skipped $2" >&2
-        return 0
-    fi
-    as_root sh -c 'mkdir -p "$(dirname "$2")" && cp "$1" "$2" && chmod 644 "$2"' sh "$1" "$2"
+	cmp -s "$1" "$2" && return 0
+	if ! ask_yes_no "copy $1 to $2 (needs root)?"; then
+		echo "skipped $2" >&2
+		return 0
+	fi
+	as_root sh -c 'mkdir -p "$(dirname "$2")" && cp "$1" "$2" && chmod 644 "$2"' sh "$1" "$2"
 }
 
 # where the os keeps config of non-base software: linux /etc, bsds /usr/local/etc,
 # illumos/solaris /etc (pkgsrc would be /opt/local/etc, set ETC_PREFIX then)
 etc_prefix() {
-    if [ -n "${ETC_PREFIX:-}" ]; then
-        echo "$ETC_PREFIX"
-        return
-    fi
-    case $(uname -s) in
-        *BSD|DragonFly) echo /usr/local/etc ;;
-        *) echo /etc ;;
-    esac
+	if [ -n "${ETC_PREFIX:-}" ]; then
+		echo "$ETC_PREFIX"
+		return
+	fi
+	case $(uname -s) in
+		*BSD|DragonFly) echo /usr/local/etc ;;
+		*) echo /etc ;;
+	esac
 }
