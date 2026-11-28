@@ -17,7 +17,7 @@ nl='
 '
 # memories (globals get copied into AGENTS.md) + the worktree dirs of every
 # project, one per line. <id> dirs too ∵ delta makes <id>/<name> after <id>
-watched() {
+watched_dirs() {
 	[ -d "$HOME/.agents/memories" ] && printf '%s\n' "$HOME/.agents/memories"
 	for p in "$HOME"/.agents/memories/*/.path; do
 		[ -f "$p" ] || continue
@@ -32,7 +32,7 @@ watched() {
 
 # watch first, link after ∴ nothing made while link-agents runs gets missed
 while :; do
-	dirs=$(watched)
+	dirs=$(watched_dirs)
 	set -f; old=$IFS; IFS=$nl
 	set -- $dirs
 	IFS=$old; set +f

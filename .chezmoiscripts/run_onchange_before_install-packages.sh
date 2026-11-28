@@ -62,24 +62,24 @@ jre25-openjdk:java for the mc server"
 fi
 
 # prints the names out of "name:why" lines that $1 says arent there + you said yes to
-pick() { # check-command lines
+ask_missing_packages() { # check-command lines
     printf '%s\n' "$2" | while IFS=: read -r name why; do
-        if ! "$1" "$name" && ask "install $name ($why)?"; then
+        if ! "$1" "$name" && ask_yes_no "install $name ($why)?"; then
             printf '%s ' "$name"
         fi
     done
 }
-has_pkg() { pacman -Q "$1" >/dev/null 2>&1; }
-has_flatpak() { flatpak info "$1" >/dev/null 2>&1; }
+pacman_has_package() { pacman -Q "$1" >/dev/null 2>&1; }
+flatpak_has_app() { flatpak info "$1" >/dev/null 2>&1; }
 
 if command -v pacman >/dev/null 2>&1; then
-    chosen=$(pick has_pkg "$pkgs")
+    chosen=$(ask_missing_packages pacman_has_package "$pkgs")
     # unquoted on purpose: split into package names
     [ -n "$chosen" ] && as_root pacman -S --needed $chosen
 
     if command -v paru >/dev/null 2>&1; then
-        chosen=$(pick has_pkg "$aur")
-        [ -n "$chosen" ] && paru --sudo "$(root_tool)" -S --needed $chosen
+        chosen=$(ask_missing_packages pacman_has_package "$aur")
+        [ -n "$chosen" ] && paru --sudo "$(root_tool_name)" -S --needed $chosen
     else
         echo "install-packages: no paru, skipped aur stuff" >&2
     fi
@@ -89,7 +89,7 @@ else
 fi
 
 if command -v flatpak >/dev/null 2>&1; then
-    chosen=$(pick has_flatpak "$flatpaks")
+    chosen=$(ask_missing_packages flatpak_has_app "$flatpaks")
     if [ -n "$chosen" ]; then
         flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
         flatpak install -y --noninteractive flathub $chosen
@@ -97,7 +97,7 @@ if command -v flatpak >/dev/null 2>&1; then
 fi
 
 if ! command -v promnesia >/dev/null 2>&1 && command -v pipx >/dev/null 2>&1 \
-    && ask "install promnesia (browser history, pipx)?"; then
+    && ask_yes_no "install promnesia (browser history, pipx)?"; then
     pipx install promnesia
     pipx inject promnesia browserexport sqlite_backup
 fi

@@ -3,7 +3,7 @@
 # order: run0 (systemd) > pkexec (polkit) > doas (openbsd + others) > sudo
 # > pfexec (illumos/solaris rbac) > su (always there, asks root pw)
 as_root() {
-    _tool=$(root_tool)
+    _tool=$(root_tool_name)
     if [ -n "$_tool" ]; then
         "$_tool" "$@"
     else
@@ -17,7 +17,7 @@ as_root() {
 }
 
 # the name of that tool, also for paru --sudo (su cant work there, its not sudo-like)
-root_tool() {
+root_tool_name() {
     for t in run0 pkexec doas sudo pfexec; do
         if command -v "$t" >/dev/null 2>&1; then
             echo "$t"
@@ -27,7 +27,7 @@ root_tool() {
 }
 
 # y/N question on the terminal. no terminal (apply from a hook ETC) = no
-ask() {
+ask_yes_no() {
     { : </dev/tty; } 2>/dev/null || return 1
     printf '%s [y/N] ' "$1" >/dev/tty
     read -r _answer </dev/tty || return 1
@@ -40,7 +40,7 @@ ask() {
 # copy $1 to $2 as root, only if different + only after asking
 install_root_file() {
     cmp -s "$1" "$2" && return 0
-    if ! ask "copy $1 to $2 (needs root)?"; then
+    if ! ask_yes_no "copy $1 to $2 (needs root)?"; then
         echo "skipped $2" >&2
         return 0
     fi
